@@ -212,6 +212,11 @@
             border-color: #9f7aea;
         }
         
+        .day-btn.selected.shift-evening {
+            background: #2d3748;
+            border-color: #2d3748;
+        }
+        
         .day-btn.weekend {
             background: #f7fafc;
         }
@@ -226,6 +231,10 @@
         
         .day-btn.weekend.selected.shift-afternoon {
             background: #9f7aea;
+        }
+        
+        .day-btn.weekend.selected.shift-evening {
+            background: #2d3748;
         }
         
         .day-btn .day-number {
@@ -557,6 +566,7 @@
         .shift-demo-box.full { background: #48bb78; }
         .shift-demo-box.morning { background: #f6ad55; }
         .shift-demo-box.afternoon { background: #9f7aea; }
+        .shift-demo-box.evening { background: #2d3748; }
         
         /* Welcome Tutorial */
         .welcome-overlay {
@@ -760,7 +770,7 @@
                 </div>
                 <div style="font-size: 13px; color: #2c5aa0; margin-bottom: 8px; padding: 12px; background: #edf2f7; border-radius: 8px; font-weight: 500;">
                     👆 <strong>Click each day below to select and cycle through shifts:</strong><br>
-                    1st click = 🟢 Full Day (8am-5pm) → 2nd click = 🟠 Morning (8am-12pm) → 3rd click = 🟣 Afternoon (1pm-5pm) → 4th click = Deselect
+                    1st click = 🟢 Full Day (8am-5pm) → 2nd click = 🟠 Morning (8am-12pm) → 3rd click = 🟣 Afternoon (1pm-5pm) → 4th click = ⚫ Evening (5pm-8pm) → 5th click = Deselect
                 </div>
                 <div style="font-size: 13px; margin-bottom: 12px; padding: 12px; background: linear-gradient(135deg, #f6e05e 0%, #f6ad55 100%); border-radius: 8px; border-left: 4px solid #d69e2e; color: #744210; font-weight: 500;">
                     💡 <strong>Pro Tip for Clinic Providers:</strong> Click the "Weekdays Full Day" button first to select Mon-Fri, then click individual days to change their shift color as needed!
@@ -773,7 +783,7 @@
                 <div class="section-title">How Shifts Work</div>
                 <div class="time-defaults">
                     <div class="title">Click any day above to cycle through these shifts:</div>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
                         <div style="padding: 16px; background: #48bb78; border-radius: 8px; text-align: center; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                             <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;">🟢 Full Day</div>
                             <div style="font-size: 14px; opacity: 0.95;">8am - 5pm</div>
@@ -789,9 +799,14 @@
                             <div style="font-size: 14px; opacity: 0.95;">1pm - 5pm</div>
                             <div style="font-size: 13px; opacity: 0.9;">(4 hours)</div>
                         </div>
+                        <div style="padding: 16px; background: #2d3748; border-radius: 8px; text-align: center; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;">⚫ Evening</div>
+                            <div style="font-size: 14px; opacity: 0.95;">5pm - 8pm</div>
+                            <div style="font-size: 13px; opacity: 0.9;">(3 hours)</div>
+                        </div>
                     </div>
                     <div style="margin-top: 12px; padding: 12px; background: white; border-radius: 8px; font-size: 13px; color: #4a5568; text-align: center;">
-                        💡 <strong>Tip:</strong> Click a day once for Full Day (green), twice for Morning (orange), three times for Afternoon (purple), four times to deselect.
+                        💡 <strong>Tip:</strong> Click a day once for Full Day (green), twice for Morning (orange), three times for Afternoon (purple), four times for Evening (black), five times to deselect.
                     </div>
                 </div>
             </div>
@@ -865,13 +880,15 @@
                         <div class="shift-demo-box full">🟢 Full Day<br>8am-5pm (8h)</div>
                         <div class="shift-demo-box morning">🟠 Morning<br>8am-12pm (4h)</div>
                         <div class="shift-demo-box afternoon">🟣 Afternoon<br>1pm-5pm (4h)</div>
+                        <div class="shift-demo-box evening">⚫ Evening<br>5pm-8pm (3h)</div>
                     </div>
                     <p><strong>Click sequence:</strong></p>
                     <ul>
                         <li>1st click → 🟢 Green (Full Day)</li>
                         <li>2nd click → 🟠 Orange (Morning)</li>
                         <li>3rd click → 🟣 Purple (Afternoon)</li>
-                        <li>4th click → Deselect</li>
+                        <li>4th click → ⚫ Black (Evening)</li>
+                        <li>5th click → Deselect</li>
                     </ul>
                     <p><strong>Quick buttons:</strong></p>
                     <ul>
@@ -981,7 +998,8 @@
         const shifts = {
             'full': { timeIn: '8:00', timeOut: '17:00', hours: 8, label: 'Full', color: '#48bb78' },
             'morning': { timeIn: '8:00', timeOut: '12:00', hours: 4, label: 'AM', color: '#f6ad55' },
-            'afternoon': { timeIn: '13:00', timeOut: '17:00', hours: 4, label: 'PM', color: '#9f7aea' }
+            'afternoon': { timeIn: '13:00', timeOut: '17:00', hours: 4, label: 'PM', color: '#9f7aea' },
+            'evening': { timeIn: '17:00', timeOut: '20:00', hours: 3, label: 'Eve', color: '#2d3748' }
         };
         
         // Embedded PDF template as base64
@@ -1246,6 +1264,7 @@
                     className += ' selected';
                     if (shift === 'morning') className += ' shift-morning';
                     else if (shift === 'afternoon') className += ' shift-afternoon';
+                    else if (shift === 'evening') className += ' shift-evening';
                 }
                 if (isWeekend) className += ' weekend';
                 
@@ -1273,8 +1292,11 @@
             } else if (currentShift === 'morning') {
                 // Morning - change to afternoon
                 selectedDays.set(day, 'afternoon');
+            } else if (currentShift === 'afternoon') {
+                // Afternoon - change to evening
+                selectedDays.set(day, 'evening');
             } else {
-                // Afternoon - deselect
+                // Evening - deselect
                 selectedDays.delete(day);
             }
             
