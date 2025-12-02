@@ -1590,7 +1590,8 @@
         const physicianShifts = {
             'full': { timeIn: '8:00', timeOut: '17:00', hours: 8, label: 'Full', color: '#48bb78' },
             'morning': { timeIn: '8:00', timeOut: '12:00', hours: 4, label: 'AM', color: '#f6ad55' },
-            'afternoon': { timeIn: '13:00', timeOut: '17:00', hours: 4, label: 'PM', color: '#9f7aea' }
+            'afternoon': { timeIn: '13:00', timeOut: '17:00', hours: 4, label: 'PM', color: '#9f7aea' },
+            'evening': { timeIn: '17:00', timeOut: '21:00', hours: 4, label: 'Eve', color: '#2d3748' }
         };
 
         const nurseShifts = {
@@ -2022,6 +2023,7 @@
                 'full': { emoji: '🟢', name: 'Full Day' },
                 'morning': { emoji: '🟠', name: 'Morning' },
                 'afternoon': { emoji: '🟣', name: 'Afternoon' },
+                'evening': { emoji: '⚫', name: 'Evening' },
                 'first': { emoji: '🟢', name: 'First Shift' },
                 'second': { emoji: '🟠', name: 'Second Shift' }
             };
