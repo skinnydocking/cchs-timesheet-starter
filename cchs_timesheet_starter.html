@@ -415,7 +415,107 @@
         #signatureInput {
             display: none;
         }
-        
+
+        /* Signature Canvas */
+        .signature-options {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .signature-option-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.2s;
+        }
+
+        .signature-option-btn:hover {
+            border-color: #2c5aa0;
+        }
+
+        .signature-option-btn.active {
+            background: #2c5aa0;
+            border-color: #2c5aa0;
+            color: white;
+        }
+
+        .signature-canvas-container {
+            display: none;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            background: white;
+        }
+
+        .signature-canvas-container.active {
+            display: block;
+        }
+
+        #signatureCanvas {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 4px;
+            background: white;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .signature-canvas-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .signature-canvas-controls button {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .signature-canvas-controls button:hover {
+            background: #f7fafc;
+        }
+
+        .signature-canvas-controls .clear-btn {
+            color: #e53e3e;
+            border-color: #feb2b2;
+        }
+
+        .signature-canvas-controls .clear-btn:hover {
+            background: #fff5f5;
+        }
+
+        .signature-canvas-controls .done-btn {
+            color: #38a169;
+            border-color: #9ae6b4;
+        }
+
+        .signature-canvas-controls .done-btn:hover {
+            background: #f0fff4;
+        }
+
+        .signature-upload-container {
+            display: none;
+        }
+
+        .signature-upload-container.active {
+            display: block;
+        }
+
         /* Help Button */
         .help-button {
             position: fixed;
@@ -1088,6 +1188,20 @@
                 max-height: 60px;
             }
 
+            .signature-option-btn {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            #signatureCanvas {
+                height: 120px;
+            }
+
+            .signature-canvas-controls button {
+                font-size: 12px;
+                padding: 6px;
+            }
+
             /* Info banners - better wrapping */
             div[style*="font-size: 13px"] {
                 font-size: 12px !important;
@@ -1138,12 +1252,38 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Signature (click to upload image) <span id="signatureSavedLabel" style="color: #48bb78; font-size: 11px; display: none;">● Saved</span></label>
-                    <div class="signature-upload" id="signatureUpload" onclick="document.getElementById('signatureInput').click()">
-                        <div id="signatureText">📝 Click to upload signature image</div>
-                        <img id="signaturePreview" class="signature-preview" alt="Signature">
+                    <label>Signature <span id="signatureSavedLabel" style="color: #48bb78; font-size: 11px; display: none;">● Saved</span></label>
+
+                    <!-- Signature Options -->
+                    <div class="signature-options">
+                        <button type="button" class="signature-option-btn active" id="drawBtn" onclick="switchSignatureMode('draw')">
+                            ✍️ Draw
+                        </button>
+                        <button type="button" class="signature-option-btn" id="uploadBtn" onclick="switchSignatureMode('upload')">
+                            📤 Upload
+                        </button>
                     </div>
-                    <input type="file" id="signatureInput" accept="image/*">
+
+                    <!-- Draw Signature Canvas -->
+                    <div class="signature-canvas-container active" id="canvasContainer">
+                        <div style="font-size: 12px; color: #718096; margin-bottom: 8px; text-align: center;">
+                            ✍️ Sign below using your finger or stylus
+                        </div>
+                        <canvas id="signatureCanvas"></canvas>
+                        <div class="signature-canvas-controls">
+                            <button type="button" class="clear-btn" onclick="clearSignatureCanvas()">🗑️ Clear</button>
+                            <button type="button" class="done-btn" onclick="saveSignatureCanvas()">✓ Done</button>
+                        </div>
+                    </div>
+
+                    <!-- Upload Signature -->
+                    <div class="signature-upload-container" id="uploadContainer">
+                        <div class="signature-upload" id="signatureUpload" onclick="document.getElementById('signatureInput').click()">
+                            <div id="signatureText">📝 Click to upload signature image</div>
+                            <img id="signaturePreview" class="signature-preview" alt="Signature">
+                        </div>
+                        <input type="file" id="signatureInput" accept="image/*">
+                    </div>
                 </div>
                 <div style="font-size: 12px; color: #718096; margin-top: 8px;">
                     💡 Your information is saved locally in your browser and will be automatically filled in next time.
@@ -1421,7 +1561,12 @@
         let monthHalf = 'first';
         let selectedDays = new Map(); // Map of day -> shift type: 'full', 'morning', 'afternoon'
         let signatureImageData = null;
-        
+
+        // Signature Canvas State
+        let isDrawing = false;
+        let signatureCanvas = null;
+        let signatureCtx = null;
+
         // Shift configurations
         const shifts = {
             'full': { timeIn: '8:00', timeOut: '17:00', hours: 8, label: 'Full', color: '#48bb78' },
@@ -1500,11 +1645,12 @@
             renderDaysGrid();
             updateSummary();
             checkFirstVisit();
-            
+            initializeSignatureCanvas();
+
             document.getElementById('monthSelect').addEventListener('change', onMonthYearChange);
             document.getElementById('yearSelect').addEventListener('change', onMonthYearChange);
             document.getElementById('signatureInput').addEventListener('change', handleSignatureUpload);
-            
+
             // Save employee info when fields change
             document.getElementById('employeeName').addEventListener('blur', saveEmployeeInfo);
             document.getElementById('employeeNumber').addEventListener('blur', saveEmployeeInfo);
@@ -1623,6 +1769,11 @@
                 document.getElementById('signatureUpload').classList.remove('has-image');
                 document.getElementById('signatureText').textContent = '📝 Click to upload signature image';
                 document.getElementById('signatureSavedLabel').style.display = 'none';
+
+                // Clear canvas
+                if (signatureCtx) {
+                    signatureCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+                }
                 
                 // Ask if they want to see the tutorial again
                 if (confirm('Would you like to see the welcome tutorial again?')) {
@@ -1646,14 +1797,165 @@
                     document.getElementById('signatureUpload').classList.add('has-image');
                     document.getElementById('signatureText').textContent = '✓ Signature saved';
                     document.getElementById('signatureSavedLabel').style.display = 'inline';
-                    
+
                     // Save signature to localStorage
                     localStorage.setItem('cchs_signature_image', signatureImageData);
                 };
                 reader.readAsDataURL(file);
             }
         }
-        
+
+        // Signature Canvas Functions
+        function initializeSignatureCanvas() {
+            signatureCanvas = document.getElementById('signatureCanvas');
+            signatureCtx = signatureCanvas.getContext('2d');
+
+            // Set canvas size based on display size
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            // Mouse events
+            signatureCanvas.addEventListener('mousedown', startDrawing);
+            signatureCanvas.addEventListener('mousemove', draw);
+            signatureCanvas.addEventListener('mouseup', stopDrawing);
+            signatureCanvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events for mobile
+            signatureCanvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+            signatureCanvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+            signatureCanvas.addEventListener('touchend', stopDrawing);
+
+            // Configure context
+            signatureCtx.strokeStyle = '#000000';
+            signatureCtx.lineWidth = 2;
+            signatureCtx.lineCap = 'round';
+            signatureCtx.lineJoin = 'round';
+        }
+
+        function resizeCanvas() {
+            const rect = signatureCanvas.getBoundingClientRect();
+            signatureCanvas.width = rect.width * 2; // 2x for retina
+            signatureCanvas.height = rect.height * 2;
+            signatureCanvas.style.width = rect.width + 'px';
+            signatureCanvas.style.height = rect.height + 'px';
+            signatureCtx.scale(2, 2);
+
+            // Reconfigure context after resize
+            signatureCtx.strokeStyle = '#000000';
+            signatureCtx.lineWidth = 2;
+            signatureCtx.lineCap = 'round';
+            signatureCtx.lineJoin = 'round';
+
+            // Redraw signature if exists
+            if (signatureImageData && signatureImageData.startsWith('data:image/png')) {
+                const img = new Image();
+                img.onload = function() {
+                    signatureCtx.drawImage(img, 0, 0, rect.width, rect.height);
+                };
+                img.src = signatureImageData;
+            }
+        }
+
+        function getMousePos(e) {
+            const rect = signatureCanvas.getBoundingClientRect();
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        }
+
+        function getTouchPos(e) {
+            const rect = signatureCanvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            return {
+                x: touch.clientX - rect.left,
+                y: touch.clientY - rect.top
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const pos = getMousePos(e);
+            signatureCtx.beginPath();
+            signatureCtx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const pos = getMousePos(e);
+            signatureCtx.lineTo(pos.x, pos.y);
+            signatureCtx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            signatureCtx.beginPath();
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            isDrawing = true;
+            const pos = getTouchPos(e);
+            signatureCtx.beginPath();
+            signatureCtx.moveTo(pos.x, pos.y);
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (!isDrawing) return;
+            const pos = getTouchPos(e);
+            signatureCtx.lineTo(pos.x, pos.y);
+            signatureCtx.stroke();
+        }
+
+        function clearSignatureCanvas() {
+            signatureCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+            signatureImageData = null;
+            document.getElementById('signatureSavedLabel').style.display = 'none';
+            localStorage.removeItem('cchs_signature_image');
+        }
+
+        function saveSignatureCanvas() {
+            // Check if canvas is empty
+            const canvasData = signatureCtx.getImageData(0, 0, signatureCanvas.width, signatureCanvas.height);
+            const isEmpty = !canvasData.data.some(channel => channel !== 0);
+
+            if (isEmpty) {
+                alert('Please draw your signature first!');
+                return;
+            }
+
+            // Convert canvas to image data
+            signatureImageData = signatureCanvas.toDataURL('image/png');
+
+            // Save to localStorage
+            localStorage.setItem('cchs_signature_image', signatureImageData);
+
+            // Update UI
+            document.getElementById('signatureSavedLabel').style.display = 'inline';
+
+            alert('Signature saved successfully!');
+        }
+
+        function switchSignatureMode(mode) {
+            const drawBtn = document.getElementById('drawBtn');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const canvasContainer = document.getElementById('canvasContainer');
+            const uploadContainer = document.getElementById('uploadContainer');
+
+            if (mode === 'draw') {
+                drawBtn.classList.add('active');
+                uploadBtn.classList.remove('active');
+                canvasContainer.classList.add('active');
+                uploadContainer.classList.remove('active');
+            } else {
+                drawBtn.classList.remove('active');
+                uploadBtn.classList.add('active');
+                canvasContainer.classList.remove('active');
+                uploadContainer.classList.add('active');
+            }
+        }
+
         function getDayOfWeek(year, month, day) {
             // month is 1-indexed (1=January, 12=December)
             const date = new Date(year, month - 1, day);
