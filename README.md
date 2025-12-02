@@ -1,6 +1,6 @@
 # CCHS Timesheet Starter
 
-A simple, browser-based tool for Contra Costa Health Services physicians and dentists to quickly fill out their payroll timesheets.
+A simple, browser-based tool for Contra Costa Health Services physicians and nurses/staff to quickly fill out their payroll timesheets.
 
 ## 🌟 Features
 
@@ -10,7 +10,10 @@ A simple, browser-based tool for Contra Costa Health Services physicians and den
 - **Built-in Help System** - Click the "?" button anytime for complete instructions
 - **First-Time Tutorial** - Welcome guide appears automatically for new users
 - **Smart Weekday Detection** - Automatically identifies weekdays (M-F) based on the actual calendar
-- **Flexible Shifts** - Each day can have Full Day, Morning, or Afternoon shifts
+- **Multiple Role Support** - Separate shift options for Physicians and Nurses/Staff
+- **Flexible Shifts** - Different shift configurations based on your role
+  - **Physicians**: Full Day, Morning, Afternoon, Evening shifts
+  - **Nurses/Staff**: First Shift (8am-5pm) and Second Shift (1pm-9pm)
 - **Built-in PDF Template** - No need to upload a blank timesheet every time
 - **Easy Day Selection** - Visual calendar with quick-select options
 - **Professional Output** - Generates properly formatted, signed PDFs
@@ -49,18 +52,31 @@ A simple, browser-based tool for Contra Costa Health Services physicians and den
   - Privacy information
 
 ### Creating a Timesheet
-1. **Select Pay Period**: Choose the month and year
-2. **Select Half**: Choose 1st half (days 1-16) or 2nd half (days 16-31)
-3. **Select Days & Shifts**: 
-   - Click a day to select it with Full Day shift (8am-5pm, 8 hours)
-   - Click again to change to Morning shift (8am-12pm, 4 hours)
-   - Click again to change to Afternoon shift (1pm-5pm, 4 hours)
-   - Click again to deselect the day
-   - Use "Weekdays Full Day" to automatically select Mon-Fri with full shifts
-   - Use "Select All Days" to select all 16 days with full shifts
-4. **Review Summary**: Check total hours and days worked
-5. **Generate**: Click "Generate Filled Timesheet" to create your PDF
-6. **Download**: Click the download link to save your timesheet
+1. **Select Your Role**: Choose between Physician or Nurse/Staff
+   - **Physician** - Outpatient Clinic shifts (Full Day, Morning, Afternoon, Evening)
+   - **Nurse/Staff** - First & Second Shifts
+2. **Select Pay Period**: Choose the month and year
+3. **Select Half**: Choose 1st half (days 1-16) or 2nd half (days 16-31)
+4. **Select Days & Shifts**: Click each day to cycle through available shifts
+
+   **For Physicians:**
+   - 1st click: 🟢 Full Day (8am-5pm, 8 hours)
+   - 2nd click: 🟠 Morning (8am-12pm, 4 hours)
+   - 3rd click: 🟣 Afternoon (1pm-5pm, 4 hours)
+   - 4th click: ⚫ Evening (5pm-9pm, 4 hours)
+   - 5th click: Deselect the day
+
+   **For Nurses/Staff:**
+   - 1st click: 🟢 First Shift (8am-5pm, 8 hours)
+   - 2nd click: 🟠 Second Shift (1pm-9pm, 8 hours)
+   - 3rd click: Deselect the day
+
+   **Quick Selection Options:**
+   - Use "Weekdays Full Day" to automatically select Mon-Fri
+   - Use "Select All Days" to select all 16 days
+5. **Review Summary**: Check total hours and days worked
+6. **Generate**: Click "Generate Filled Timesheet" to create your PDF
+7. **Download**: Click the download link to save your timesheet
 
 The PDF will include:
 - Your name and employee number
@@ -122,4 +138,4 @@ For issues or questions, please open an issue on GitHub.
 
 ---
 
-Made with ❤️ for CCHS physicians and dentists
+Made with ❤️ for CCHS physicians and nurses/staff
