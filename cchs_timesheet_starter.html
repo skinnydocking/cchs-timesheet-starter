@@ -2030,8 +2030,8 @@
             Object.keys(shifts).forEach(shiftKey => {
                 const shift = shifts[shiftKey];
                 const display = shiftDisplay[shiftKey] || { emoji: '⚪', name: shiftKey };
-                const timeIn = shift.timeIn.replace(':00', 'am').replace(':0', 'am').replace('13:00', '1pm').replace('15:00', '3pm').replace('17:00', '5pm').replace('19:00', '7pm').replace('21:00', '9pm').replace('23:00', '11pm');
-                const timeOut = shift.timeOut.replace(':00', 'am').replace(':0', 'am').replace('12:00', '12pm').replace('13:00', '1pm').replace('15:00', '3pm').replace('17:00', '5pm').replace('19:00', '7pm').replace('21:00', '9pm').replace('23:00', '11pm').replace('7:00', '7am/pm');
+                const timeIn = formatTime(shift.timeIn);
+                const timeOut = formatTime(shift.timeOut);
 
                 html += `
                     <div class="shift-info-box" style="background: ${shift.color};">
