@@ -1244,11 +1244,11 @@
                 <div class="half-toggle">
                     <button class="half-btn active" id="physicianRoleBtn" onclick="selectRole('physician')">
                         <div class="title">👨‍⚕️ Physician</div>
-                        <div class="subtitle">Clinic & Hospital Shifts</div>
+                        <div class="subtitle">Outpatient Clinic</div>
                     </button>
                     <button class="half-btn" id="nurseRoleBtn" onclick="selectRole('nurse')">
                         <div class="title">👩‍⚕️ Nurse/Staff</div>
-                        <div class="subtitle">12-Hour & 8-Hour Shifts</div>
+                        <div class="subtitle">First & Second Shifts</div>
                     </button>
                 </div>
             </div>
@@ -1589,16 +1589,13 @@
         // Role-specific shift configurations
         const physicianShifts = {
             'full': { timeIn: '8:00', timeOut: '17:00', hours: 8, label: 'Full', color: '#48bb78' },
-            'extended': { timeIn: '7:00', timeOut: '19:00', hours: 12, label: 'Ext', color: '#3182ce' },
             'morning': { timeIn: '8:00', timeOut: '12:00', hours: 4, label: 'AM', color: '#f6ad55' },
             'afternoon': { timeIn: '13:00', timeOut: '17:00', hours: 4, label: 'PM', color: '#9f7aea' }
         };
 
         const nurseShifts = {
-            'day': { timeIn: '7:00', timeOut: '19:00', hours: 12, label: 'Day', color: '#48bb78' },
-            'night': { timeIn: '19:00', timeOut: '7:00', hours: 12, label: 'Night', color: '#2d3748' },
-            'morning': { timeIn: '7:00', timeOut: '15:00', hours: 8, label: 'AM', color: '#f6ad55' },
-            'evening': { timeIn: '15:00', timeOut: '23:00', hours: 8, label: 'Eve', color: '#9f7aea' }
+            'first': { timeIn: '8:00', timeOut: '12:00', hours: 4, label: '1st', color: '#48bb78' },
+            'second': { timeIn: '13:00', timeOut: '21:00', hours: 8, label: '2nd', color: '#f6ad55' }
         };
 
         // Get current shifts based on role
@@ -2023,12 +2020,10 @@
             // Emoji and names for each shift type
             const shiftDisplay = {
                 'full': { emoji: '🟢', name: 'Full Day' },
-                'extended': { emoji: '🔵', name: 'Extended' },
-                'day': { emoji: '🟢', name: 'Day Shift' },
-                'night': { emoji: '⚫', name: 'Night Shift' },
                 'morning': { emoji: '🟠', name: 'Morning' },
                 'afternoon': { emoji: '🟣', name: 'Afternoon' },
-                'evening': { emoji: '🟣', name: 'Evening' }
+                'first': { emoji: '🟢', name: 'First Shift' },
+                'second': { emoji: '🟠', name: 'Second Shift' }
             };
 
             let html = '';
