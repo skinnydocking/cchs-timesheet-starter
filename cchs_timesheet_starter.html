@@ -2116,14 +2116,17 @@
         function selectWeekdaysFull() {
             const year = parseInt(document.getElementById('yearSelect').value);
             const month = parseInt(document.getElementById('monthSelect').value);
-            
+
             selectedDays.clear();
+            const shifts = getShifts();
+            const firstShiftKey = Object.keys(shifts)[0]; // Get first shift type for current role
+
             for (let i = 1; i <= 16; i++) {
                 const calendarDay = monthHalf === 'first' ? i : i + 15;
                 const dayOfWeek = getDayOfWeek(year, month, calendarDay);
-                // Select Monday-Friday (1-5) with full shift
+                // Select Monday-Friday (1-5) with first shift type
                 if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-                    selectedDays.set(i, 'full');
+                    selectedDays.set(i, firstShiftKey);
                 }
             }
             renderDaysGrid();
@@ -2132,8 +2135,11 @@
         
         function selectAll() {
             selectedDays.clear();
+            const shifts = getShifts();
+            const firstShiftKey = Object.keys(shifts)[0]; // Get first shift type for current role
+
             for (let i = 1; i <= 16; i++) {
-                selectedDays.set(i, 'full');
+                selectedDays.set(i, firstShiftKey);
             }
             renderDaysGrid();
             updateSummary();
@@ -2148,12 +2154,12 @@
         function updateSummary() {
             let totalHours = 0;
             selectedDays.forEach((shift, day) => {
-                totalHours += shifts[shift].hours;
+                totalHours += getShifts()[shift].hours;
             });
-            
+
             document.getElementById('totalHours').textContent = totalHours;
             document.getElementById('daysWorked').textContent = selectedDays.size;
-            
+
             document.getElementById('generateBtn').disabled = selectedDays.size === 0;
         }
         
