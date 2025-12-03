@@ -1343,11 +1343,11 @@
                 <div class="half-toggle">
                     <button class="half-btn active" id="firstHalfBtn" onclick="selectHalf('first')">
                         <div class="title">1st Half</div>
-                        <div class="subtitle">Days 1-16</div>
+                        <div class="subtitle">Days 1-15</div>
                     </button>
                     <button class="half-btn" id="secondHalfBtn" onclick="selectHalf('second')">
                         <div class="title">2nd Half</div>
-                        <div class="subtitle">Days 16-31</div>
+                        <div class="subtitle" id="secondHalfSubtitle">Days 16-31</div>
                     </button>
                 </div>
             </div>
@@ -1461,7 +1461,7 @@
                     <h3>📅 Select Pay Period</h3>
                     <ul>
                         <li>Choose the <strong>month</strong> and <strong>year</strong></li>
-                        <li>Select <strong>1st Half</strong> (days 1-16) or <strong>2nd Half</strong> (days 16-31)</li>
+                        <li>Select <strong>1st Half</strong> (days 1-15) or <strong>2nd Half</strong> (days 16-end of month)</li>
                     </ul>
                 </div>
                 
@@ -1678,6 +1678,7 @@
             setCurrentMonthYear();
             loadSavedEmployeeInfo();
             updateShiftInfoDisplay();
+            updateSecondHalfSubtitle();
             renderDaysGrid();
             updateSummary();
             checkFirstVisit();
@@ -1746,8 +1747,16 @@
         
         function onMonthYearChange() {
             selectedDays.clear();
+            updateSecondHalfSubtitle();
             renderDaysGrid();
             updateSummary();
+        }
+
+        function updateSecondHalfSubtitle() {
+            const year = parseInt(document.getElementById('yearSelect').value);
+            const month = parseInt(document.getElementById('monthSelect').value);
+            const daysInMonth = getDaysInMonth(year, month);
+            document.getElementById('secondHalfSubtitle').textContent = `Days 16-${daysInMonth}`;
         }
         
         function loadSavedEmployeeInfo() {
@@ -2002,7 +2011,20 @@
             const names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             return names[dayOfWeek];
         }
-        
+
+        function getDaysInMonth(year, month) {
+            // month is 1-indexed (1=January, 12=December)
+            return new Date(year, month, 0).getDate();
+        }
+
+        function getDaysInHalf(year, month, half) {
+            if (half === 'first') {
+                return 15; // Days 1-15
+            } else {
+                return getDaysInMonth(year, month) - 15; // Days 16-end of month
+            }
+        }
+
         function selectRole(role) {
             currentRole = role;
 
@@ -2064,11 +2086,12 @@
         function renderDaysGrid() {
             const grid = document.getElementById('daysGrid');
             grid.innerHTML = '';
-            
+
             const year = parseInt(document.getElementById('yearSelect').value);
             const month = parseInt(document.getElementById('monthSelect').value);
-            
-            for (let i = 1; i <= 16; i++) {
+            const daysInHalf = getDaysInHalf(year, month, monthHalf);
+
+            for (let i = 1; i <= daysInHalf; i++) {
                 const calendarDay = monthHalf === 'first' ? i : i + 15;
                 const dayOfWeek = getDayOfWeek(year, month, calendarDay);
                 const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
@@ -2122,12 +2145,13 @@
         function selectWeekdaysFull() {
             const year = parseInt(document.getElementById('yearSelect').value);
             const month = parseInt(document.getElementById('monthSelect').value);
+            const daysInHalf = getDaysInHalf(year, month, monthHalf);
 
             selectedDays.clear();
             const shifts = getShifts();
             const firstShiftKey = Object.keys(shifts)[0]; // Get first shift type for current role
 
-            for (let i = 1; i <= 16; i++) {
+            for (let i = 1; i <= daysInHalf; i++) {
                 const calendarDay = monthHalf === 'first' ? i : i + 15;
                 const dayOfWeek = getDayOfWeek(year, month, calendarDay);
                 // Select Monday-Friday (1-5) with first shift type
@@ -2140,11 +2164,15 @@
         }
         
         function selectAll() {
+            const year = parseInt(document.getElementById('yearSelect').value);
+            const month = parseInt(document.getElementById('monthSelect').value);
+            const daysInHalf = getDaysInHalf(year, month, monthHalf);
+
             selectedDays.clear();
             const shifts = getShifts();
             const firstShiftKey = Object.keys(shifts)[0]; // Get first shift type for current role
 
-            for (let i = 1; i <= 16; i++) {
+            for (let i = 1; i <= daysInHalf; i++) {
                 selectedDays.set(i, firstShiftKey);
             }
             renderDaysGrid();
