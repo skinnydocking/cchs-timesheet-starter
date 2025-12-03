@@ -56,7 +56,7 @@ A simple, browser-based tool for Contra Costa Health Services physicians and nur
    - **Physician** - Outpatient Clinic shifts (Full Day, Morning, Afternoon, Evening)
    - **Nurse/Staff** - First & Second Shifts
 2. **Select Pay Period**: Choose the month and year
-3. **Select Half**: Choose 1st half (days 1-16) or 2nd half (days 16-31)
+3. **Select Half**: Choose 1st half (days 1-15) or 2nd half (days 16-end of month)
 4. **Select Days & Shifts**: Click each day to cycle through available shifts
 
    **For Physicians:**
