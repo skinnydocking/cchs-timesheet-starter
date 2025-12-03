@@ -50,18 +50,41 @@
         }
         
         .section {
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            padding-left: 0;
+            transition: all 0.3s ease;
         }
-        
+
+        .section.numbered {
+            padding-left: 20px;
+            border-left: 3px solid #cbd5e0;
+            position: relative;
+        }
+
+        .section.numbered::before {
+            content: attr(data-step);
+            position: absolute;
+            left: -18px;
+            top: 0;
+            background: #2d3748;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
         .section-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #4a5568;
-            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
             letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 16px;
         }
         
         .form-row {
@@ -258,11 +281,25 @@
         
         .quick-actions {
             display: flex;
-            gap: 8px;
+            gap: 12px;
             margin-bottom: 16px;
             flex-wrap: wrap;
+            align-items: center;
         }
-        
+
+        .auto-select-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-right: 4px;
+        }
+
+        .auto-select-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
         .quick-btn {
             padding: 10px 18px;
             border: 2px solid #2d3748;
@@ -281,6 +318,19 @@
             color: #ffffff;
             transform: translateY(-1px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .quick-btn.auto-select {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            border-color: #3182ce;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(49, 130, 206, 0.4);
+        }
+
+        .quick-btn.auto-select:hover {
+            background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(49, 130, 206, 0.5);
         }
         
         .time-defaults {
@@ -908,13 +958,23 @@
             }
 
             .section {
-                margin-bottom: 16px;
+                margin-bottom: 20px;
+            }
+
+            .section.numbered {
+                padding-left: 16px;
+            }
+
+            .section.numbered::before {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+                left: -16px;
             }
 
             .section-title {
-                font-size: 12px;
-                margin-bottom: 10px;
-                padding-bottom: 6px;
+                font-size: 14px;
+                margin-bottom: 12px;
             }
 
             /* Make section title button wrap on mobile */
@@ -988,13 +1048,24 @@
 
             /* Quick action buttons - stack better */
             .quick-actions {
-                gap: 6px;
+                gap: 8px;
                 margin-bottom: 12px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .auto-select-label {
+                font-size: 12px;
+                margin-bottom: -4px;
+            }
+
+            .auto-select-group {
+                gap: 6px;
             }
 
             .quick-btn {
-                padding: 9px 14px;
-                font-size: 13px;
+                padding: 8px 14px;
+                font-size: 12px;
                 border-radius: 16px;
                 font-weight: 600;
             }
@@ -1242,25 +1313,25 @@
         
         <div class="content">
             <!-- Role Selection -->
-            <div class="section">
+            <div class="section numbered" data-step="1">
                 <div class="section-title">Select Your Role</div>
                 <div style="font-size: 13px; color: #4a5568; margin-bottom: 12px;">
                     Different roles have different shift schedules available
                 </div>
                 <div class="half-toggle">
                     <button class="half-btn active" id="physicianRoleBtn" onclick="selectRole('physician')">
-                        <div class="title">👨‍⚕️ Physician</div>
+                        <div class="title">🩺 Physician</div>
                         <div class="subtitle">Outpatient Clinic</div>
                     </button>
                     <button class="half-btn" id="nurseRoleBtn" onclick="selectRole('nurse')">
-                        <div class="title">👩‍⚕️ Nurse/Staff</div>
+                        <div class="title">💉 Nurse/Staff</div>
                         <div class="subtitle">First & Second Shifts</div>
                     </button>
                 </div>
             </div>
 
             <!-- Employee Information -->
-            <div class="section">
+            <div class="section numbered" data-step="2">
                 <div class="section-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                     <span>Employee Information</span>
                     <button class="quick-btn" onclick="clearSavedInfo()">Clear Saved Info</button>
@@ -1315,7 +1386,7 @@
             </div>
             
             <!-- Period Information -->
-            <div class="section">
+            <div class="section numbered" data-step="3">
                 <div class="section-title">Pay Period</div>
                 <div class="form-row">
                     <div class="form-group">
@@ -1353,19 +1424,22 @@
             </div>
             
             <!-- Day Selection -->
-            <div class="section">
+            <div class="section numbered" data-step="4">
                 <div class="section-title">Select Days & Shifts</div>
                 <div class="quick-actions">
-                    <button class="quick-btn" onclick="selectWeekdaysFull()">Weekdays Full Day (8am-5pm)</button>
-                    <button class="quick-btn" onclick="selectAll()">Select All Days</button>
-                    <button class="quick-btn" onclick="clearAll()">Clear All</button>
+                    <span class="auto-select-label">Auto-Select:</span>
+                    <div class="auto-select-group">
+                        <button class="quick-btn auto-select" onclick="selectWeekdaysFull()">Weekdays</button>
+                        <button class="quick-btn auto-select" onclick="selectAll()">All Days</button>
+                    </div>
+                    <button class="quick-btn" onclick="clearAll()">Clear</button>
                 </div>
                 <div style="font-size: 13px; color: #2c5aa0; margin-bottom: 8px; padding: 12px; background: #edf2f7; border-radius: 8px; font-weight: 500;">
                     👆 <strong>Click each day below to select and cycle through shifts:</strong><br>
                     1st click = 🟢 Full Day (8am-5pm) → 2nd click = 🟠 Morning (8am-12pm) → 3rd click = 🟣 Afternoon (1pm-5pm) → 4th click = ⚫ Evening (5pm-9pm) → 5th click = Deselect
                 </div>
                 <div style="font-size: 13px; margin-bottom: 12px; padding: 12px; background: linear-gradient(135deg, #f6e05e 0%, #f6ad55 100%); border-radius: 8px; border-left: 4px solid #d69e2e; color: #744210; font-weight: 500;">
-                    💡 <strong>Pro Tip for Clinic Providers:</strong> Click the "Weekdays Full Day" button first to select Mon-Fri, then click individual days to change their shift color as needed!
+                    💡 <strong>Pro Tip for Clinic Providers:</strong> Click the "Weekdays" button first to select Mon-Fri, then click individual days to change their shift color as needed!
                 </div>
                 <div class="days-grid" id="daysGrid"></div>
             </div>
