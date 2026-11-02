@@ -15,6 +15,7 @@ A simple, browser-based tool for Contra Costa Health Services physicians and nur
   - **Physicians**: Full Day, Morning, Afternoon, Evening shifts
   - **Nurses/Staff**: First Shift (8am-5pm) and Second Shift (1pm-9pm)
 - **Custom Shifts** - Add your own shifts (e.g. 6:30am-2:30pm) with their own hours; they're saved in your browser and join the click-to-cycle list
+- **Review & Adjust Grid** - After picking shifts, a grid that mirrors the form's columns 1-15 lets you add vacation, sick, on-call and other entries, with live column totals. Reg Hrs is filled in automatically (hours worked + vacation + sick + other accruals + Hrs) for every row, and rows missing it are flagged
 - **Editable PDF** - Values are written into the form's real fields, so you can correct times, hours, or totals afterward in any PDF editor
 - **Built-in PDF Template** - No need to upload a blank timesheet every time
 - **Easy Day Selection** - Visual calendar with quick-select options

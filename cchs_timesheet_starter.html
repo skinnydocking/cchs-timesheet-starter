@@ -368,6 +368,127 @@
             background: rgba(255, 255, 255, 0.45);
         }
 
+        /* ---- Review & Adjust grid ---- */
+        .grid-hint {
+            font-size: 12px;
+            color: #4a5568;
+            background: #edf2f7;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .ts-grid-wrap {
+            overflow-x: auto;
+            border: 2px solid #2d3748;
+            border-radius: 8px;
+            background: #fff;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.ts-grid {
+            border-collapse: collapse;
+            min-width: 1240px;
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .ts-grid th, .ts-grid td {
+            border: 1px solid #a0aec0;
+            padding: 2px 3px;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .ts-grid thead th {
+            background: #e2e8f0;
+            color: #1a202c;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 3px;
+        }
+
+        .ts-grid thead tr.grp th {
+            background: #2d3748;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .ts-grid th.helper, .ts-grid td.helper {
+            background: #f7fafc;
+            border-left: 3px double #718096;
+            border-right: 3px double #718096;
+        }
+
+        .ts-grid .daycell {
+            position: sticky;
+            left: 0;
+            z-index: 2;
+            background: #fff;
+            font-weight: 700;
+            min-width: 58px;
+            text-align: left;
+            padding: 4px 6px;
+            vertical-align: middle;
+            box-shadow: 2px 0 0 #a0aec0;
+        }
+
+        .ts-grid thead .daycell { background: #e2e8f0; z-index: 3; }
+        .ts-grid tr.weekend .daycell { color: #a0aec0; }
+        .ts-grid tr.weekend td { background-color: #fafafa; }
+        .ts-grid .daycell small { display: block; font-weight: 400; color: #718096; font-size: 10px; }
+
+        .ts-grid input {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            padding: 5px 2px;
+            font-size: 13px;
+            text-align: center;
+            background: transparent;
+            font-family: inherit;
+        }
+
+        .ts-grid input:hover { border-color: #cbd5e0; }
+        .ts-grid input:focus { outline: none; border-color: #2c5aa0; background: #fff; }
+        .ts-grid input.g-time { min-width: 92px; }
+        .ts-grid input.g-num { min-width: 52px; }
+        .ts-grid input.g-desc { min-width: 150px; text-align: left; }
+
+        .ts-grid td.regcell input { font-weight: 700; }
+        .ts-grid td.regcell.auto { background: #f0fff4; }
+        .ts-grid td.regcell.manual { background: #fffaf0; box-shadow: inset 0 0 0 2px #ed8936; }
+        .ts-grid td.regcell.missing { background: #fff5f5; box-shadow: inset 0 0 0 2px #e53e3e; }
+
+        .ts-grid .g-sub {
+            font-size: 9.5px;
+            color: #718096;
+            min-height: 12px;
+            line-height: 1.2;
+            padding-bottom: 2px;
+        }
+
+        .ts-grid td.regcell.manual .g-sub { color: #c05621; }
+        .ts-grid td.regcell.missing .g-sub { color: #c53030; font-weight: 700; }
+        .ts-grid .g-sub a { color: #2c5aa0; cursor: pointer; text-decoration: underline; }
+
+        .ts-grid tfoot td {
+            background: #e2e8f0;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 7px 3px;
+            border-top: 3px solid #2d3748;
+            vertical-align: middle;
+        }
+
+        .ts-grid tfoot td.daycell { background: #e2e8f0; }
+
+        #gridIssues { margin-top: 10px; font-size: 13px; }
+        #gridIssues .issue-err { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
+        #gridIssues .issue-warn { background: #fffaf0; border: 1px solid #fbd38d; color: #9c4221; border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
+
         .quick-actions {
             display: flex;
             gap: 12px;
@@ -1619,6 +1740,20 @@
                 </div>
             </div>
             
+            <!-- Review & Adjust grid -->
+            <div class="section" id="gridSection">
+                <div class="section-title">Review &amp; Adjust Timesheet</div>
+                <div class="grid-hint">
+                    This mirrors columns 1&ndash;15 of the form. Times and hours from the shifts you picked are filled in;
+                    add vacation, sick, on-call and other entries here, or fix anything that's off.
+                    <strong>Reg Hrs</strong> is filled automatically as hours worked + vacation + sick + other accruals + (12) Hrs,
+                    and every row with an entry must have it. Type over it to override (it will be marked <em>manual</em>).
+                    The grey <strong>Worked</strong> column is a helper and is not written to the PDF.
+                </div>
+                <div class="ts-grid-wrap"><table class="ts-grid" id="tsGrid"></table></div>
+                <div id="gridIssues"></div>
+            </div>
+
             <!-- Generate Button -->
             <button class="generate-btn" id="generateBtn" onclick="generatePDF()">
                 Generate Filled Timesheet
@@ -2024,6 +2159,270 @@
             "Employee Signature": [14.0094, 97.0146, 230.0, 113.779]
         };
         
+        // ---------------- Review & Adjust grid ----------------
+        // Columns that are entered by hand. `field` is the PDF field prefix for each day row
+        // (the form numbers its rows 1..16 within the pay-period half) and `total` the PDF
+        // field for the column total.
+        const GRID_COLS = [
+            { key: 'noc',      num: 4,  label: 'NOC',          field: 'AddHours-NOC_Day-',           total: 'AddHours--Total NOC' },
+            { key: 'adp',      num: 5,  label: 'ADP',          field: 'AddHours-ADP_Day-',           total: 'AddHours--Total ADP' },
+            { key: 'oncall',   num: 6,  label: 'On Call',      field: 'AddHours-OnCall_Day-',        total: 'AddHours--Total OnCall' },
+            { key: 'callback', num: 7,  label: 'Call Back',    field: 'AddHours-CallBack_Day-',      total: 'AddHours--Total CallBack' },
+            { key: 'vac',      num: 8,  label: 'Vac',          field: 'NonWork-Vacation_Day-',       total: 'NonWork-Total Vacation' },
+            { key: 'sick',     num: 9,  label: 'Sick',         field: 'NonWork-Sick_Day-',           total: 'NonWork-Total Sick Leave' },
+            { key: 'otheracc', num: 10, label: 'Other Accruals', field: 'NonWork-OtherAccruals_Day-', total: 'NonWork-Total Other Accruals' },
+            { key: 'otherhrs', num: 12, label: 'Hrs',          field: 'NonWork-Hours_Day-',          total: 'NonWork-Total Hours' },
+            { key: 'awop',     num: 13, label: 'AWOP/AWOL',    field: 'NonWork-AWOP_Day-',           total: 'NonWork-Total AWOP' },
+            { key: 'admin',    num: 14, label: 'Admin Time Hrs', field: 'NonWork-Admin Time_Day-',   total: 'NonWork-Total Admin Time' },
+            { key: 'spt',      num: 15, label: 'SPT',          field: 'NonWork-SPT_Day-',            total: 'NonWork-Total SPT' }
+        ];
+        const GRID_DESC_FIELD = 'NonWork-Other-Description_Day-';
+        const GRID_REG_FIELD = 'RegHours_Day-';
+        const GRID_REG_TOTAL_FIELD = 'Reg Hours--Total Day';
+        // Paid time that counts toward each day's Reg Hrs, in addition to hours worked.
+        // Premium hours (NOC/ADP/On Call/Call Back), unpaid time (AWOP/AWOL), Admin Time and SPT do not.
+        const REG_COUNTS = ['vac', 'sick', 'otheracc', 'otherhrs'];
+        const REG_COUNT_LABELS = { vac: 'vac', sick: 'sick', otheracc: 'accr', otherhrs: 'hrs' };
+
+        let gridRows = {};   // day row (1..16) -> row state
+        let gridContext = '';
+
+        function num(v) {
+            const n = parseFloat(v);
+            return Number.isFinite(n) ? n : 0;
+        }
+
+        function round2(n) {
+            return Math.round(n * 100) / 100;
+        }
+
+        function padTime(t) {
+            if (!isValidTime(t)) return '';
+            const [h, m] = t.split(':');
+            return String(parseInt(h, 10)).padStart(2, '0') + ':' + m;
+        }
+
+        function elapsedMinutes(timeIn, timeOut) {
+            const [h1, m1] = timeIn.split(':').map(Number);
+            const [h2, m2] = timeOut.split(':').map(Number);
+            let mins = (h2 * 60 + m2) - (h1 * 60 + m1);
+            if (mins <= 0) mins += 24 * 60;
+            return mins;
+        }
+
+        function newGridRow() {
+            const vals = {};
+            GRID_COLS.forEach(c => vals[c.key] = '');
+            return { shiftSig: '', timeIn: '', timeOut: '', worked: '', workedManual: false, breakMin: 0,
+                     vals, desc: '', reg: '', regManual: false };
+        }
+
+        // Keep grid rows in step with the shifts picked on the calendar. A row is only
+        // re-seeded from a shift when that day's shift changes; typed entries are kept.
+        function syncGridFromShifts() {
+            const year = parseInt(document.getElementById('yearSelect').value);
+            const month = parseInt(document.getElementById('monthSelect').value);
+            const ctx = [year, month, monthHalf, currentRole].join('-');
+            if (ctx !== gridContext) {
+                gridRows = {};
+                gridContext = ctx;
+            }
+            const n = getDaysInHalf(year, month, monthHalf);
+            Object.keys(gridRows).forEach(k => { if (parseInt(k, 10) > n) delete gridRows[k]; });
+            for (let d = 1; d <= n; d++) {
+                const row = gridRows[d] || (gridRows[d] = newGridRow());
+                const key = selectedDays.get(d) || '';
+                const shift = key ? getShifts()[key] : null;
+                const sig = shift ? [key, shift.timeIn, shift.timeOut, shift.hours].join('|') : '';
+                if (sig !== row.shiftSig) {
+                    row.shiftSig = sig;
+                    if (shift) {
+                        row.timeIn = padTime(shift.timeIn);
+                        row.timeOut = padTime(shift.timeOut);
+                        row.worked = String(shift.hours);
+                        // Whatever break the shift implies (e.g. 8-5 = 9h elapsed, 8h paid)
+                        row.breakMin = Math.max(0, elapsedMinutes(shift.timeIn, shift.timeOut) - Math.round(shift.hours * 60));
+                    } else {
+                        row.timeIn = ''; row.timeOut = ''; row.worked = ''; row.breakMin = 0;
+                    }
+                    row.workedManual = false;
+                    row.regManual = false;
+                }
+            }
+        }
+
+        function computeReg(row) {
+            let t = num(row.worked);
+            REG_COUNTS.forEach(k => { t += num(row.vals[k]); });
+            return round2(t);
+        }
+
+        function rowHasEntry(row) {
+            if (row.timeIn || row.timeOut || row.desc.trim()) return true;
+            if (num(row.worked) > 0 || num(row.reg) > 0) return true;
+            return GRID_COLS.some(c => num(row.vals[c.key]) > 0);
+        }
+
+        function regBreakdown(row) {
+            const parts = [];
+            if (num(row.worked) > 0) parts.push(round2(num(row.worked)) + ' work');
+            REG_COUNTS.forEach(k => { if (num(row.vals[k]) > 0) parts.push(round2(num(row.vals[k])) + ' ' + REG_COUNT_LABELS[k]); });
+            return parts.join(' + ');
+        }
+
+        function gridDayLabel(d) {
+            const year = parseInt(document.getElementById('yearSelect').value);
+            const month = parseInt(document.getElementById('monthSelect').value);
+            const calendarDay = monthHalf === 'first' ? d : d + 15;
+            return { calendarDay, name: getDayName(getDayOfWeek(year, month, calendarDay)),
+                     weekend: [0, 6].includes(getDayOfWeek(year, month, calendarDay)) };
+        }
+
+        function renderGrid() {
+            const table = document.getElementById('tsGrid');
+            if (!table) return;
+            const days = Object.keys(gridRows).map(Number).sort((a, b) => a - b);
+            const colTh = c => `<th>(${c.num}) ${c.label}</th>`;
+            const byKey = k => GRID_COLS.find(c => c.key === k);
+
+            let html = `<thead>
+                <tr class="grp"><th class="daycell" rowspan="2">Day</th><th colspan="2">TIME</th><th class="helper" rowspan="2">Worked<br><small>helper</small></th><th rowspan="2">(3) REG HRS</th>
+                    <th colspan="4">ADDITIONAL HOURS</th><th colspan="6">NON WORK HOURS/OTHER</th><th rowspan="2">(14) ADMIN TIME</th><th rowspan="2">(15) SPT</th></tr>
+                <tr><th>(1) In</th><th>(2) Out</th>
+                    ${['noc', 'adp', 'oncall', 'callback'].map(k => colTh(byKey(k))).join('')}
+                    ${colTh(byKey('vac'))}${colTh(byKey('sick'))}${colTh(byKey('otheracc'))}<th>(11) Other / Description</th>${colTh(byKey('otherhrs'))}${colTh(byKey('awop'))}
+                </tr></thead><tbody>`;
+
+            const numCell = (d, k) => `<td><input class="g-num" type="number" inputmode="decimal" step="0.25" min="0" id="g-${d}-${k}"
+                value="${escapeHtml(gridRows[d].vals[k])}" oninput="onGridNum(${d}, '${k}', this)" aria-label="${escapeHtml(byKey(k).label)} day ${d}"></td>`;
+
+            days.forEach(d => {
+                const row = gridRows[d];
+                const lab = gridDayLabel(d);
+                html += `<tr id="g-row-${d}" class="${lab.weekend ? 'weekend' : ''}">
+                    <td class="daycell">${lab.calendarDay}<small>${lab.name}</small></td>
+                    <td><input class="g-time" type="time" id="g-${d}-timeIn" value="${row.timeIn}" oninput="onGridTime(${d}, 'timeIn', this)" aria-label="Time in day ${d}"></td>
+                    <td><input class="g-time" type="time" id="g-${d}-timeOut" value="${row.timeOut}" oninput="onGridTime(${d}, 'timeOut', this)" aria-label="Time out day ${d}"></td>
+                    <td class="helper"><input class="g-num" type="number" inputmode="decimal" step="0.25" min="0" id="g-${d}-worked" value="${escapeHtml(row.worked)}" oninput="onGridWorked(${d}, this)" aria-label="Hours worked day ${d}"></td>
+                    <td class="regcell auto" id="g-${d}-regcell"><input class="g-num" type="number" inputmode="decimal" step="0.25" min="0" id="g-${d}-reg" value="${escapeHtml(row.reg)}" oninput="onGridReg(${d}, this)" onchange="refreshRow(${d}, true)" aria-label="Regular hours day ${d}"><div class="g-sub" id="g-${d}-sub"></div></td>
+                    ${['noc', 'adp', 'oncall', 'callback', 'vac', 'sick', 'otheracc'].map(k => numCell(d, k)).join('')}
+                    <td><input class="g-desc" type="text" maxlength="24" id="g-${d}-desc" value="${escapeHtml(row.desc)}" oninput="onGridDesc(${d}, this)" aria-label="Other description day ${d}"></td>
+                    ${['otherhrs', 'awop', 'admin', 'spt'].map(k => numCell(d, k)).join('')}
+                </tr>`;
+            });
+
+            html += `</tbody><tfoot><tr><td class="daycell">TOTALS</td><td></td><td></td><td class="helper" id="gt-worked"></td><td id="gt-reg"></td>
+                ${['noc', 'adp', 'oncall', 'callback', 'vac', 'sick', 'otheracc'].map(k => `<td id="gt-${k}"></td>`).join('')}<td></td>
+                ${['otherhrs', 'awop', 'admin', 'spt'].map(k => `<td id="gt-${k}"></td>`).join('')}</tr></tfoot>`;
+            table.innerHTML = html;
+            days.forEach(d => refreshRow(d, true));
+        }
+
+        // Update one row's derived Reg Hrs, its caption and its status colour.
+        function refreshRow(d, force) {
+            const row = gridRows[d];
+            if (!row) return;
+            const regInput = document.getElementById(`g-${d}-reg`);
+            const cell = document.getElementById(`g-${d}-regcell`);
+            const sub = document.getElementById(`g-${d}-sub`);
+            if (!regInput || !cell || !sub) return;
+
+            const computed = computeReg(row);
+            if (!row.regManual) row.reg = computed > 0 ? String(computed) : '';
+            if (force || document.activeElement !== regInput) regInput.value = row.reg;
+
+            const hasEntry = rowHasEntry(row);
+            const missing = hasEntry && num(row.reg) <= 0;
+            const manualDiffers = row.regManual && round2(num(row.reg)) !== computed;
+            cell.className = 'regcell ' + (missing ? 'missing' : (manualDiffers ? 'manual' : 'auto'));
+
+            if (missing) sub.innerHTML = 'Reg Hrs required';
+            else if (manualDiffers) sub.innerHTML = `manual (auto = ${computed}) <a onclick="resetReg(${d})">reset</a>`;
+            else sub.textContent = regBreakdown(row);
+        }
+
+        function resetReg(d) {
+            gridRows[d].regManual = false;
+            refreshRow(d, true);
+            updateSummary();
+        }
+
+        function afterGridEdit(d) {
+            refreshRow(d, false);
+            updateSummary();
+        }
+
+        function onGridTime(d, field, el) {
+            const row = gridRows[d];
+            row[field] = el.value;
+            if (!row.workedManual && row.timeIn && row.timeOut) {
+                const h = calcShiftHours(row.timeIn, row.timeOut, row.breakMin);
+                if (h !== null) {
+                    row.worked = String(h);
+                    document.getElementById(`g-${d}-worked`).value = row.worked;
+                }
+            }
+            afterGridEdit(d);
+        }
+
+        function onGridWorked(d, el) {
+            gridRows[d].worked = el.value;
+            gridRows[d].workedManual = true;
+            afterGridEdit(d);
+        }
+
+        function onGridNum(d, key, el) {
+            gridRows[d].vals[key] = el.value;
+            afterGridEdit(d);
+        }
+
+        function onGridDesc(d, el) {
+            gridRows[d].desc = el.value;
+            afterGridEdit(d);
+        }
+
+        function onGridReg(d, el) {
+            const row = gridRows[d];
+            if (el.value === '') {
+                row.regManual = false;      // cleared: go back to automatic
+            } else {
+                row.regManual = true;
+                row.reg = el.value;
+            }
+            afterGridEdit(d);
+        }
+
+        function gridTotals() {
+            const t = { worked: 0, reg: 0 };
+            GRID_COLS.forEach(c => t[c.key] = 0);
+            Object.values(gridRows).forEach(row => {
+                t.worked += num(row.worked);
+                t.reg += num(row.reg);
+                GRID_COLS.forEach(c => { t[c.key] += num(row.vals[c.key]); });
+            });
+            Object.keys(t).forEach(k => t[k] = round2(t[k]));
+            return t;
+        }
+
+        function getGridIssues() {
+            const errors = [], warnings = [];
+            Object.keys(gridRows).map(Number).sort((a, b) => a - b).forEach(d => {
+                const row = gridRows[d];
+                const label = gridDayLabel(d);
+                const tag = `${label.name} ${label.calendarDay}`;
+                if (!rowHasEntry(row)) return;
+                if (num(row.reg) <= 0) errors.push(`${tag}: Reg Hrs is required for any row with an entry.`);
+                if (num(row.reg) > 24) warnings.push(`${tag}: Reg Hrs is over 24.`);
+                if ((row.timeIn && !row.timeOut) || (!row.timeIn && row.timeOut)) warnings.push(`${tag}: only one of Time In / Time Out is filled.`);
+                if (row.regManual && round2(num(row.reg)) !== computeReg(row)) warnings.push(`${tag}: Reg Hrs was changed by hand (auto would be ${computeReg(row)}).`);
+            });
+            return { errors, warnings };
+        }
+
+        function gridHasEntries() {
+            return Object.values(gridRows).some(rowHasEntry);
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             initializeYearSelect();
@@ -2481,6 +2880,9 @@
                 btn.onclick = () => toggleDay(i);
                 grid.appendChild(btn);
             }
+
+            syncGridFromShifts();
+            renderGrid();
         }
         
         function toggleDay(day) {
@@ -2546,21 +2948,35 @@
         
         function clearAll() {
             selectedDays.clear();
+            gridRows = {};
             renderDaysGrid();
             updateSummary();
         }
         
         function updateSummary() {
-            let totalHours = 0;
-            selectedDays.forEach((shift, day) => {
-                totalHours += getShifts()[shift].hours;
-            });
+            const totals = gridTotals();
+            const daysWorked = Object.values(gridRows).filter(r => num(r.worked) > 0).length;
 
-            totalHours = Math.round(totalHours * 100) / 100;
-            document.getElementById('totalHours').textContent = totalHours;
-            document.getElementById('daysWorked').textContent = selectedDays.size;
+            document.getElementById('totalHours').textContent = totals.reg;
+            document.getElementById('daysWorked').textContent = daysWorked;
 
-            document.getElementById('generateBtn').disabled = selectedDays.size === 0;
+            // Column totals row
+            const setTotal = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v > 0 ? v : ''; };
+            setTotal('gt-worked', totals.worked);
+            setTotal('gt-reg', totals.reg);
+            GRID_COLS.forEach(c => setTotal('gt-' + c.key, totals[c.key]));
+
+            // Problems (errors block generating; warnings don't)
+            const issues = getGridIssues();
+            const box = document.getElementById('gridIssues');
+            if (box) {
+                let html = '';
+                if (issues.errors.length) html += `<div class="issue-err"><strong>Fix before generating:</strong><br>${issues.errors.map(escapeHtml).join('<br>')}</div>`;
+                if (issues.warnings.length) html += `<div class="issue-warn"><strong>Worth a look:</strong><br>${issues.warnings.map(escapeHtml).join('<br>')}</div>`;
+                box.innerHTML = html;
+            }
+
+            document.getElementById('generateBtn').disabled = !gridHasEntries() || issues.errors.length > 0;
         }
         
         // PDF output style. Times keep the familiar "8:00 AM" look and hours are
@@ -2584,7 +3000,8 @@
         }
         
         async function generatePDF() {
-            if (selectedDays.size === 0) return;
+            if (!gridHasEntries()) return;
+            if (getGridIssues().errors.length) return;
             
             const statusDiv = document.getElementById('status');
             statusDiv.className = 'status processing';
@@ -2613,6 +3030,8 @@
                         // from the fields we fill so edits are accepted as typed.
                         field.acroField.dict.delete(PDFName.of('AA'));
                         field.acroField.getWidgets().forEach(w => w.dict.delete(PDFName.of('AA')));
+                        // The Time In/Out boxes are narrow; auto-size so "12:00 PM" fits un-clipped
+                        if (/^Time(In|Out)_Day-/.test(name)) field.setFontSize(0);
                         field.setText(String(value));
                     } catch (err) {
                         console.warn('Could not fill PDF field "' + name + '":', err);
@@ -2665,19 +3084,25 @@
                     }
                 }
 
-                // Fill each selected day
-                let totalHours = 0;
-                selectedDays.forEach((shiftType, day) => {
-                    const shift = getShifts()[shiftType];
-                    totalHours += shift.hours;
-                    setField(`TimeIn_Day-${day}`, formatPdfTime(shift.timeIn));
-                    setField(`TimeOut_Day-${day}`, formatPdfTime(shift.timeOut));
-                    setField(`RegHours_Day-${day}`, formatPdfHours(shift.hours));
+                // Fill every row that has an entry, straight from the grid
+                const totals = gridTotals();
+                Object.keys(gridRows).map(Number).forEach(day => {
+                    const row = gridRows[day];
+                    if (!rowHasEntry(row)) return;
+                    if (row.timeIn) setField(`TimeIn_Day-${day}`, formatPdfTime(row.timeIn));
+                    if (row.timeOut) setField(`TimeOut_Day-${day}`, formatPdfTime(row.timeOut));
+                    setField(`${GRID_REG_FIELD}${day}`, formatPdfHours(row.reg));
+                    GRID_COLS.forEach(c => {
+                        if (num(row.vals[c.key]) > 0) setField(`${c.field}${day}`, formatPdfHours(row.vals[c.key]));
+                    });
+                    if (row.desc.trim()) setField(`${GRID_DESC_FIELD}${day}`, row.desc.trim());
                 });
 
-                // Total (the template's field is named "Reg Hours--Total Day")
-                totalHours = Math.round(totalHours * 100) / 100;
-                setField('Reg Hours--Total Day', formatPdfHours(totalHours));
+                // Column totals (the form's total fields; blank when a column is empty)
+                setField(GRID_REG_TOTAL_FIELD, formatPdfHours(totals.reg));
+                GRID_COLS.forEach(c => {
+                    if (totals[c.key] > 0) setField(c.total, formatPdfHours(totals[c.key]));
+                });
 
                 // Remove the second page (instructions page, has no fields)
                 if (pdfDoc.getPageCount() > 1) {
