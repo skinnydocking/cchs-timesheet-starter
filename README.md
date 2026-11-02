@@ -17,7 +17,7 @@ A simple, browser-based tool for Contra Costa Health Services physicians and nur
 - **24-Hour Time** - All times are military time, chosen in 30-minute steps (no AM/PM, no odd minutes)
 - **Custom Shifts** - The Custom Shift Creator (look for the ⭐) sits right under the standard shifts, with an "Add your own shift" tile; add shifts like 06:30-14:30 with their own hours. They're saved in your browser and join the click-to-cycle list
 - **Collapsible Setup** - Role and employee info fold into a one-line summary (Edit to reopen) once you've set them up, leaving room for the timesheet itself
-- **Review & Adjust Grid** - After picking shifts, a grid that mirrors the form's columns 1-15 lets you add vacation, sick, on-call and other entries, with live column totals. Reg Hrs is filled in automatically (hours worked + vacation + sick + other accruals + Hrs) for every row, and rows missing it are flagged
+- **Review & Adjust Grid** - After picking shifts, a grid that mirrors the form's columns 1-15 lets you add vacation, sick, on-call and other entries, with live column totals. Reg Hrs is filled in automatically for every row: accruals (Vac, Sick, Other Accruals, Hrs, Admin Time, SPT) come out of the shift rather than adding to it (8h shift + 8h Vac = 8 Reg Hrs), and rows missing it are flagged
 - **Editable PDF** - Values are written into the form's real fields, so you can correct times, hours, or totals afterward in any PDF editor
 - **Built-in PDF Template** - No need to upload a blank timesheet every time
 - **Easy Day Selection** - Visual calendar with quick-select options

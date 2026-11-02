@@ -1871,10 +1871,12 @@
                     This mirrors columns 1&ndash;15 of the form. Times and hours from the shifts you picked are filled in;
                     add vacation, sick, on-call and other entries here, or fix anything that's off.
                     <ul>
-                        <li><strong>Reg Hrs</strong> is filled automatically as hours worked + vacation + sick + other accruals + (12) Hrs.
-                            Every row with an entry must have it. Type over it to override (it will be marked <em>manual</em>).</li>
-                        <li>The grey <strong>work_hrs temp</strong> column is a scratch column holding the hours you worked (from your shift or In/Out times).
-                            It feeds Reg Hrs and is <strong>not</strong> written to the PDF.</li>
+                        <li><strong>Reg Hrs</strong> is filled automatically. Accruals (Vac, Sick, Other Accruals, (12) Hrs, Admin Time, SPT)
+                            come <em>out of</em> the shift, not on top of it: an 8-hour day with 8 Vac is 8 Reg Hrs, and with 4 Vac it is 4 worked + 4 Vac = 8.
+                            With no shift, Reg Hrs is just the accrual hours. Every row with an entry must have it.
+                            Type over it to override (it will be marked <em>manual</em>).</li>
+                        <li>The grey <strong>work_hrs temp</strong> column is a scratch column holding the length of the day's shift (from your shift or In/Out times).
+                            It is <strong>not</strong> written to the PDF.</li>
                     </ul>
                 </div>
                 <div class="ts-grid-wrap"><table class="ts-grid" id="tsGrid"></table></div>
@@ -2442,10 +2444,11 @@
         const GRID_DESC_FIELD = 'NonWork-Other-Description_Day-';
         const GRID_REG_FIELD = 'RegHours_Day-';
         const GRID_REG_TOTAL_FIELD = 'Reg Hours--Total Day';
-        // Paid time that counts toward each day's Reg Hrs, in addition to hours worked.
-        // Premium hours (NOC/ADP/On Call/Call Back), unpaid time (AWOP/AWOL), Admin Time and SPT do not.
-        const REG_COUNTS = ['vac', 'sick', 'otheracc', 'otherhrs'];
-        const REG_COUNT_LABELS = { vac: 'vac', sick: 'sick', otheracc: 'accr', otherhrs: 'hrs' };
+        // Accrual-type columns. Hours entered here come OUT of the day's shift (they replace
+        // worked time rather than adding to it), so an 8-hour shift with 8 Vac hours is still
+        // 8 Reg Hrs. Premium hours (NOC/ADP/On Call/Call Back) and AWOP/AWOL do not affect Reg Hrs.
+        const ACCRUAL_KEYS = ['vac', 'sick', 'otheracc', 'otherhrs', 'admin', 'spt'];
+        const ACCRUAL_LABELS = { vac: 'vac', sick: 'sick', otheracc: 'accr', otherhrs: 'hrs', admin: 'admin', spt: 'spt' };
 
         let gridRows = {};   // day row (1..16) -> row state
         let gridContext = '';
@@ -2514,10 +2517,21 @@
             }
         }
 
-        function computeReg(row) {
-            let t = num(row.worked);
-            REG_COUNTS.forEach(k => { t += num(row.vals[k]); });
+        function accrualTotal(row) {
+            let t = 0;
+            ACCRUAL_KEYS.forEach(k => { t += num(row.vals[k]); });
             return round2(t);
+        }
+
+        // Hours actually worked: the shift's hours minus whatever was taken as accruals
+        function netWorked(row) {
+            return round2(Math.max(0, num(row.worked) - accrualTotal(row)));
+        }
+
+        // Reg Hrs = worked time + accruals. Because accruals come out of the shift this is
+        // the larger of the shift hours and the accrual hours (no shift: just the accruals).
+        function computeReg(row) {
+            return round2(netWorked(row) + accrualTotal(row));
         }
 
         function rowHasEntry(row) {
@@ -2528,8 +2542,8 @@
 
         function regBreakdown(row) {
             const parts = [];
-            if (num(row.worked) > 0) parts.push(round2(num(row.worked)) + ' work');
-            REG_COUNTS.forEach(k => { if (num(row.vals[k]) > 0) parts.push(round2(num(row.vals[k])) + ' ' + REG_COUNT_LABELS[k]); });
+            if (netWorked(row) > 0) parts.push(netWorked(row) + ' work');
+            ACCRUAL_KEYS.forEach(k => { if (num(row.vals[k]) > 0) parts.push(round2(num(row.vals[k])) + ' ' + ACCRUAL_LABELS[k]); });
             return parts.join(' + ');
         }
 
@@ -3242,7 +3256,7 @@
         
         function updateSummary() {
             const totals = gridTotals();
-            const daysWorked = Object.values(gridRows).filter(r => num(r.worked) > 0).length;
+            const daysWorked = Object.values(gridRows).filter(r => netWorked(r) > 0).length;
 
             document.getElementById('totalHours').textContent = totals.reg;
             document.getElementById('daysWorked').textContent = daysWorked;
