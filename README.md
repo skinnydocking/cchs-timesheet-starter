@@ -14,6 +14,8 @@ A simple, browser-based tool for Contra Costa Health Services physicians and nur
 - **Flexible Shifts** - Different shift configurations based on your role
   - **Physicians**: Full Day, Morning, Afternoon, Evening shifts
   - **Nurses/Staff**: First Shift (8am-5pm) and Second Shift (1pm-9pm)
+- **Custom Shifts** - Add your own shifts (e.g. 6:30am-2:30pm) with their own hours; they're saved in your browser and join the click-to-cycle list
+- **Editable PDF** - Values are written into the form's real fields, so you can correct times, hours, or totals afterward in any PDF editor
 - **Built-in PDF Template** - No need to upload a blank timesheet every time
 - **Easy Day Selection** - Visual calendar with quick-select options
 - **Professional Output** - Generates properly formatted, signed PDFs
@@ -111,6 +113,7 @@ The app saves the following information locally:
 - Employee Number (key: `cchs_employee_number`)
 - Signature Image (key: `cchs_signature_image`)
 - Tutorial Status (key: `cchs_has_visited`)
+- Custom Shifts (key: `cchs_custom_shifts`) - not cleared by "Clear Saved Info"
 
 This information persists between sessions and is automatically filled in when you return.
 
