@@ -2563,21 +2563,15 @@
             document.getElementById('generateBtn').disabled = selectedDays.size === 0;
         }
         
-        // The template's own validators expect 24-hour HH:MM in the Time In/Out
-        // columns and HH:MM in the hours columns, so we write exactly that. This
-        // also lets fractional hours (e.g. 7.5 -> 07:30) work. To change the look
-        // of the PDF output, change these two helpers.
+        // PDF output style. Times keep the familiar "8:00 AM" look and hours are
+        // written as decimals (7.5, 8, 80). Change these two helpers to restyle the PDF.
         function formatPdfTime(time24) {
-            if (!time24) return '';
-            const [h, m] = time24.split(':');
-            return String(parseInt(h, 10)).padStart(2, '0') + ':' + String(parseInt(m, 10)).padStart(2, '0');
+            return formatTime(time24);
         }
 
         function formatPdfHours(hours) {
-            const totalMinutes = Math.round(hours * 60);
-            const h = Math.floor(totalMinutes / 60);
-            const m = totalMinutes % 60;
-            return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+            const n = Math.round(Number(hours) * 100) / 100;
+            return Number.isFinite(n) ? String(n) : '';
         }
 
         function formatTime(time24) {
@@ -2610,9 +2604,16 @@
                 // Fill the template's real, editable form fields (so everything,
                 // including the totals, can still be corrected in any PDF editor).
                 const form = pdfDoc.getForm();
+                const { PDFName } = PDFLib;
                 const setField = (name, value) => {
                     try {
-                        form.getTextField(name).setText(String(value));
+                        const field = form.getTextField(name);
+                        // The template attaches HH:MM time validators to its hour columns, which
+                        // reject decimal hours (7.5) when someone edits the PDF later. Remove them
+                        // from the fields we fill so edits are accepted as typed.
+                        field.acroField.dict.delete(PDFName.of('AA'));
+                        field.acroField.getWidgets().forEach(w => w.dict.delete(PDFName.of('AA')));
+                        field.setText(String(value));
                     } catch (err) {
                         console.warn('Could not fill PDF field "' + name + '":', err);
                     }
