@@ -489,6 +489,113 @@
         #gridIssues .issue-err { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
         #gridIssues .issue-warn { background: #fffaf0; border: 1px solid #fbd38d; color: #9c4221; border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
 
+        /* ---- Collapsible setup steps ---- */
+        .section-title.step-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-start !important;
+            cursor: pointer;
+        }
+
+        .step-title .step-summary {
+            order: 1;
+            flex: 1;
+            display: none;
+            min-width: 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .step-title .step-summary .warn { color: #c05621; font-weight: 600; }
+        .step-title .quick-btn { order: 2; margin-left: auto; }
+        .step-title .step-toggle {
+            order: 3;
+            margin-left: auto;
+            border: 1px solid #cbd5e0;
+            background: #fff;
+            color: #2c5aa0;
+            border-radius: 14px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .step-title .quick-btn + .step-toggle { margin-left: 0; }
+        .section.collapsed .step-summary { display: block; }
+        .section.collapsed .step-body { display: none; }
+        .section.collapsed .section-title { margin-bottom: 0; }
+        .section.collapsed .section-title .quick-btn { display: none; }
+        .section.collapsed .step-toggle { margin-left: auto; }
+        .section.numbered.collapsed { margin-bottom: 14px; }
+        .step-done-row { margin-top: 12px; text-align: right; }
+
+        /* ---- Custom shifts: featured right under the standard shifts ---- */
+        .custom-shift-heading {
+            margin: 18px 0 10px 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .custom-shift-heading span {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #4a5568;
+            margin-top: 2px;
+        }
+
+        button.add-shift-tile {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            background: linear-gradient(135deg, #3182ce 0%, #805ad5 100%);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        button.add-shift-tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(49, 130, 206, 0.4);
+        }
+
+        button.add-shift-tile .plus {
+            font-size: 30px;
+            line-height: 1;
+            font-weight: 700;
+        }
+
+        .ts-grid select.g-time {
+            width: 100%;
+            min-width: 72px;
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            padding: 5px 2px;
+            font-size: 13px;
+            text-align: center;
+            text-align-last: center;
+            background: transparent;
+            font-family: inherit;
+        }
+
+        .ts-grid select.g-time:hover { border-color: #cbd5e0; }
+        .ts-grid select.g-time:focus { outline: none; border-color: #2c5aa0; background: #fff; }
+        .custom-shift-form select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #fff;
+            font-family: inherit;
+        }
+
         .quick-actions {
             display: flex;
             gap: 12px;
@@ -1646,7 +1753,7 @@
                 </div>
                 <div style="font-size: 13px; color: #2c5aa0; margin-bottom: 8px; padding: 12px; background: #edf2f7; border-radius: 8px; font-weight: 500;">
                     👆 <strong>Click each day below to select and cycle through shifts:</strong><br>
-                    1st click = 🟢 Full Day (8am-5pm) → 2nd click = 🟠 Morning (8am-12pm) → 3rd click = 🟣 Afternoon (1pm-5pm) → 4th click = ⚫ Evening (5pm-9pm) → 5th click = Deselect
+                    1st click = 🟢 Full Day (08:00-17:00) → 2nd click = 🟠 Morning (08:00-12:00) → 3rd click = 🟣 Afternoon (13:00-17:00) → 4th click = ⚫ Evening (17:00-21:00) → 5th click = Deselect
                 </div>
                 <div style="font-size: 13px; margin-bottom: 12px; padding: 12px; background: linear-gradient(135deg, #f6e05e 0%, #f6ad55 100%); border-radius: 8px; border-left: 4px solid #d69e2e; color: #744210; font-weight: 500;">
                     💡 <strong>Pro Tip for Clinic Providers:</strong> Click the "Weekdays" button first to select Mon-Fri, then click individual days to change their shift color as needed!
@@ -1662,35 +1769,36 @@
                     <div class="shift-info-grid" id="shiftInfoGrid">
                         <div class="shift-info-box" style="background: #48bb78;">
                             <div class="shift-title">🟢 Full Day</div>
-                            <div class="shift-time">8am - 5pm</div>
+                            <div class="shift-time">08:00 - 17:00</div>
                             <div class="shift-duration">(8 hours)</div>
                         </div>
                         <div class="shift-info-box" style="background: #f6ad55;">
                             <div class="shift-title">🟠 Morning</div>
-                            <div class="shift-time">8am - 12pm</div>
+                            <div class="shift-time">08:00 - 12:00</div>
                             <div class="shift-duration">(4 hours)</div>
                         </div>
                         <div class="shift-info-box" style="background: #9f7aea;">
                             <div class="shift-title">🟣 Afternoon</div>
-                            <div class="shift-time">1pm - 5pm</div>
+                            <div class="shift-time">13:00 - 17:00</div>
                             <div class="shift-duration">(4 hours)</div>
                         </div>
                         <div class="shift-info-box" style="background: #2d3748;">
                             <div class="shift-title">⚫ Evening</div>
-                            <div class="shift-time">5pm - 9pm</div>
+                            <div class="shift-time">17:00 - 21:00</div>
                             <div class="shift-duration">(4 hours)</div>
                         </div>
                     </div>
-                    <div style="margin-top: 12px; padding: 12px; background: white; border-radius: 8px; font-size: 13px; color: #4a5568; text-align: center;">
-                        💡 <strong>Tip:</strong> Click a day once for Full Day (green), twice for Morning (orange), three times for Afternoon (purple), four times for Evening (black), five times to deselect. Any custom shifts you add below join the cycle after these.
+                    <div class="custom-shift-heading">⭐ Your own hours
+                        <span>Don't work these exact times? Add your own shift &mdash; it's saved for next time and works just like the ones above.</span>
                     </div>
+                    <div class="shift-info-grid" id="customShiftGrid"></div>
 
-                    <div class="custom-shifts">
-                        <h3>⏱️ My Custom Shifts</h3>
+                    <div class="custom-shifts" id="customEditor" style="display:none;">
+                        <h3 id="csTitle">➕ Add your own shift</h3>
                         <div class="hint">
-                            Don't work 8–5? Add your own shifts (for example 6:30am–2:30pm). They are saved in this browser,
-                            appear in the click-to-cycle list above, and the exact times and hours you enter are what get written on the PDF.
-                            Hours fill in automatically from the times minus any unpaid break, but you can type over them.
+                            Pick a start and end time (24-hour, 30-minute steps) and choose an unpaid break; hours fill in automatically
+                            but you can change them in half-hour steps. Your shift is saved in this browser, appears above in its own
+                            colour, and joins the click-to-cycle list. The exact times and hours are what get written on the PDF.
                         </div>
                         <div class="custom-shift-form">
                             <div>
@@ -1699,26 +1807,30 @@
                             </div>
                             <div>
                                 <label for="csIn">Time In</label>
-                                <input type="time" id="csIn" oninput="onCustomShiftTimeChange()">
+                                <select id="csIn" onchange="onCustomShiftTimeChange()"></select>
                             </div>
                             <div>
                                 <label for="csOut">Time Out</label>
-                                <input type="time" id="csOut" oninput="onCustomShiftTimeChange()">
+                                <select id="csOut" onchange="onCustomShiftTimeChange()"></select>
                             </div>
                             <div>
-                                <label for="csBreak">Unpaid break (min)</label>
-                                <input type="number" id="csBreak" min="0" max="240" step="5" value="0" oninput="onCustomShiftTimeChange()">
+                                <label for="csBreak">Unpaid break</label>
+                                <select id="csBreak" onchange="onCustomShiftTimeChange()"><option value="0">None</option><option value="30">30 min</option><option value="60">60 min</option></select>
                             </div>
                             <div>
                                 <label for="csHours">Hours on PDF</label>
-                                <input type="number" id="csHours" min="0.25" max="24" step="0.25" oninput="customHoursEdited = true">
+                                <input type="number" id="csHours" min="0.5" max="24" step="0.5" oninput="customHoursEdited = true">
                             </div>
                         </div>
                         <div class="custom-shift-actions">
                             <button type="button" class="quick-btn" id="csSaveBtn" onclick="saveCustomShift()">➕ Add shift</button>
-                            <button type="button" class="quick-btn" id="csCancelBtn" onclick="resetCustomShiftForm()" style="display:none;">Cancel edit</button>
+                            <button type="button" class="quick-btn" id="csCancelBtn" onclick="closeCustomEditor()">Cancel</button>
                         </div>
                         <div class="custom-shift-error" id="csError"></div>
+                    </div>
+
+                    <div style="margin-top: 12px; padding: 12px; background: white; border-radius: 8px; font-size: 13px; color: #4a5568; text-align: center;">
+                        💡 <strong>Tip:</strong> Click a day once for Full Day (green), twice for Morning (orange), three times for Afternoon (purple), four times for Evening (black), five times to deselect. Any custom shifts you add join the cycle after these.
                     </div>
                 </div>
             </div>
@@ -1803,10 +1915,10 @@
                     <h3>🎨 Select Days & Shifts</h3>
                     <p><strong>Click each day button to cycle through shifts:</strong></p>
                     <div class="shift-demo">
-                        <div class="shift-demo-box full">🟢 Full Day<br>8am-5pm (8h)</div>
-                        <div class="shift-demo-box morning">🟠 Morning<br>8am-12pm (4h)</div>
-                        <div class="shift-demo-box afternoon">🟣 Afternoon<br>1pm-5pm (4h)</div>
-                        <div class="shift-demo-box evening">⚫ Evening<br>5pm-9pm (4h)</div>
+                        <div class="shift-demo-box full">🟢 Full Day<br>08:00-17:00 (8h)</div>
+                        <div class="shift-demo-box morning">🟠 Morning<br>08:00-12:00 (4h)</div>
+                        <div class="shift-demo-box afternoon">🟣 Afternoon<br>13:00-17:00 (4h)</div>
+                        <div class="shift-demo-box evening">⚫ Evening<br>17:00-21:00 (4h)</div>
                     </div>
                     <p><strong>Click sequence:</strong></p>
                     <ul>
@@ -1958,6 +2070,30 @@
             }[c]));
         }
 
+        // Shift times are chosen from a list: 24-hour, 30-minute steps only
+        const TIME_OPTIONS = (() => {
+            const out = [];
+            for (let h = 0; h < 24; h++) for (const m of ['00', '30']) out.push(String(h).padStart(2, '0') + ':' + m);
+            return out;
+        })();
+        const TIME_OPTIONS_HTML = TIME_OPTIONS.map(t => `<option value="${t}">${t}</option>`).join('');
+
+        function fillTimeSelect(id) {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = '<option value="">--:--</option>' + TIME_OPTIONS_HTML;
+        }
+
+        function timeSelectHtml(d, field, value, label) {
+            const v = padTime(value);
+            let opts = '<option value="">--:--</option>' + TIME_OPTIONS_HTML;
+            if (v) {
+                opts = TIME_OPTIONS.includes(v)
+                    ? opts.replace(`value="${v}">`, `value="${v}" selected>`)
+                    : opts + `<option value="${v}" selected>${v}</option>`;
+            }
+            return `<select class="g-time" id="g-${d}-${field}" onchange="onGridTime(${d}, '${field}', this)" aria-label="${label} day ${d}">${opts}</select>`;
+        }
+
         function isValidTime(t) {
             return typeof t === 'string' && /^\d{1,2}:\d{2}$/.test(t);
         }
@@ -1970,7 +2106,7 @@
                 const parsed = JSON.parse(raw);
                 Object.keys(parsed || {}).forEach(key => {
                     const sh = parsed[key];
-                    if (key.startsWith('custom_') && sh && isValidTime(sh.timeIn) && isValidTime(sh.timeOut)
+                    if (key.startsWith('custom_') && sh && /^\d{1,2}:(00|30)$/.test(sh.timeIn) && /^\d{1,2}:(00|30)$/.test(sh.timeOut)
                         && typeof sh.hours === 'number' && sh.hours > 0 && sh.hours <= 24) {
                         customShifts[key] = {
                             timeIn: sh.timeIn,
@@ -2020,6 +2156,21 @@
             document.getElementById('csHours').value = hrs === null ? '' : hrs;
         }
 
+        function openCustomEditor() {
+            const panel = document.getElementById('customEditor');
+            if (!panel) return;
+            panel.style.display = '';
+            const nameInput = document.getElementById('csName');
+            if (nameInput) nameInput.focus({ preventScroll: true });
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function closeCustomEditor() {
+            resetCustomShiftForm();
+            const panel = document.getElementById('customEditor');
+            if (panel) panel.style.display = 'none';
+        }
+
         function resetCustomShiftForm() {
             editingCustomKey = null;
             customHoursEdited = false;
@@ -2027,7 +2178,7 @@
             document.getElementById('csBreak').value = 0;
             document.getElementById('csError').textContent = '';
             document.getElementById('csSaveBtn').textContent = '➕ Add shift';
-            document.getElementById('csCancelBtn').style.display = 'none';
+            document.getElementById('csTitle').textContent = '➕ Add your own shift';
         }
 
         function saveCustomShift() {
@@ -2040,7 +2191,8 @@
 
             if (!name) { err.textContent = 'Please give the shift a short name.'; return; }
             if (!timeIn || !timeOut) { err.textContent = 'Please enter both a time in and a time out.'; return; }
-            if (!(hours > 0 && hours <= 24)) { err.textContent = 'Hours must be between 0.25 and 24.'; return; }
+            if (!(hours > 0 && hours <= 24)) { err.textContent = 'Hours must be between 0.5 and 24.'; return; }
+            if (Math.abs(hours * 2 - Math.round(hours * 2)) > 1e-9) { err.textContent = 'Hours must be in half-hour steps (for example 7.5 or 8).'; return; }
             if (Object.keys(customShifts).length >= 8 && !editingCustomKey) {
                 err.textContent = 'You can save up to 8 custom shifts. Delete one to add another.';
                 return;
@@ -2057,7 +2209,7 @@
                 color, custom: true
             };
             persistCustomShifts();
-            resetCustomShiftForm();
+            closeCustomEditor();
             updateShiftInfoDisplay();
             renderDaysGrid();
             updateSummary();
@@ -2075,8 +2227,8 @@
             document.getElementById('csHours').value = sh.hours;
             document.getElementById('csError').textContent = '';
             document.getElementById('csSaveBtn').textContent = '💾 Save changes';
-            document.getElementById('csCancelBtn').style.display = '';
-            document.getElementById('csName').focus();
+            document.getElementById('csTitle').textContent = '✏️ Edit shift';
+            openCustomEditor();
         }
 
         function deleteCustomShift(key) {
@@ -2159,6 +2311,97 @@
             "Employee Signature": [14.0094, 97.0146, 230.0, 113.779]
         };
         
+        // ---------------- Collapsible setup steps (1 = role, 2 = employee info) ----------------
+        const ROLE_KEY = 'cchs_role';
+
+        function loadSavedRole() {
+            try {
+                const r = localStorage.getItem(ROLE_KEY);
+                if (r === 'physician' || r === 'nurse') {
+                    currentRole = r;
+                    document.getElementById('physicianRoleBtn').classList.toggle('active', r === 'physician');
+                    document.getElementById('nurseRoleBtn').classList.toggle('active', r === 'nurse');
+                }
+            } catch (e) { /* storage unavailable: keep the default role */ }
+        }
+
+        function updateStepSummaries() {
+            const s1 = document.getElementById('stepSummary1');
+            const s2 = document.getElementById('stepSummary2');
+            if (s1) s1.textContent = currentRole === 'physician' ? '🩺 Physician (Outpatient Clinic)' : '💉 Nurse/Staff';
+            if (s2) {
+                const name = (document.getElementById('employeeName').value || '').trim();
+                const number = (document.getElementById('employeeNumber').value || '').trim();
+                const parts = [];
+                if (name) parts.push(escapeHtml(name));
+                if (number) parts.push('#' + escapeHtml(number));
+                parts.push(signatureImageData ? '✍ signature saved' : '<span class="warn">no signature</span>');
+                if (!name || !number) parts.unshift('<span class="warn">⚠ add name &amp; employee #</span>');
+                s2.innerHTML = parts.join(' · ');
+            }
+        }
+
+        function setStepCollapsed(n, collapsed) {
+            const sec = document.querySelector(`.section.numbered[data-step="${n}"]`);
+            const toggle = document.getElementById('stepToggle' + n);
+            if (!sec || !toggle) return;
+            sec.classList.toggle('collapsed', collapsed);
+            toggle.textContent = collapsed ? 'Edit ▾' : 'Hide ▴';
+            toggle.setAttribute('aria-expanded', String(!collapsed));
+            // The signature canvas measures itself, which is 0 while hidden
+            if (!collapsed && n === 2 && signatureCanvas && signatureCtx && signatureCanvas.getBoundingClientRect().width > 0) {
+                setTimeout(resizeCanvas, 0);
+            }
+        }
+
+        function initCollapsibleSteps() {
+            let returning = false, name = '', number = '';
+            try {
+                returning = localStorage.getItem('cchs_has_visited') === 'true';
+                name = localStorage.getItem('cchs_employee_name') || '';
+                number = localStorage.getItem('cchs_employee_number') || '';
+            } catch (e) { /* ignore */ }
+
+            [1, 2].forEach(n => {
+                const sec = document.querySelector(`.section.numbered[data-step="${n}"]`);
+                if (!sec || sec.querySelector('.step-body')) return;
+                const title = sec.querySelector('.section-title');
+                title.classList.add('step-title');
+
+                const body = document.createElement('div');
+                body.className = 'step-body';
+                while (title.nextSibling) body.appendChild(title.nextSibling);
+                sec.appendChild(body);
+
+                const done = document.createElement('div');
+                done.className = 'step-done-row';
+                done.innerHTML = `<button type="button" class="quick-btn" onclick="setStepCollapsed(${n}, true)">✓ Done</button>`;
+                body.appendChild(done);
+
+                const summary = document.createElement('span');
+                summary.className = 'step-summary';
+                summary.id = 'stepSummary' + n;
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'step-toggle';
+                toggle.id = 'stepToggle' + n;
+                toggle.textContent = 'Hide ▴';
+                toggle.setAttribute('aria-expanded', 'true');
+                toggle.addEventListener('click', () => setStepCollapsed(n, !sec.classList.contains('collapsed')));
+                title.appendChild(summary);
+                title.appendChild(toggle);
+                title.addEventListener('click', ev => {
+                    if (ev.target.closest('button')) return;
+                    setStepCollapsed(n, !sec.classList.contains('collapsed'));
+                });
+            });
+
+            updateStepSummaries();
+            // Returning users see a compact summary; first-time users see the full setup
+            if (returning) setStepCollapsed(1, true);
+            if (returning && name && number) setStepCollapsed(2, true);
+        }
+
         // ---------------- Review & Adjust grid ----------------
         // Columns that are entered by hand. `field` is the PDF field prefix for each day row
         // (the form numbers its rows 1..16 within the pay-period half) and `total` the PDF
@@ -2301,8 +2544,8 @@
                 const lab = gridDayLabel(d);
                 html += `<tr id="g-row-${d}" class="${lab.weekend ? 'weekend' : ''}">
                     <td class="daycell">${lab.calendarDay}<small>${lab.name}</small></td>
-                    <td><input class="g-time" type="time" id="g-${d}-timeIn" value="${row.timeIn}" oninput="onGridTime(${d}, 'timeIn', this)" aria-label="Time in day ${d}"></td>
-                    <td><input class="g-time" type="time" id="g-${d}-timeOut" value="${row.timeOut}" oninput="onGridTime(${d}, 'timeOut', this)" aria-label="Time out day ${d}"></td>
+                    <td>${timeSelectHtml(d, 'timeIn', row.timeIn, 'Time in')}</td>
+                    <td>${timeSelectHtml(d, 'timeOut', row.timeOut, 'Time out')}</td>
                     <td class="helper"><input class="g-num" type="number" inputmode="decimal" step="0.25" min="0" id="g-${d}-worked" value="${escapeHtml(row.worked)}" oninput="onGridWorked(${d}, this)" aria-label="Hours worked day ${d}"></td>
                     <td class="regcell auto" id="g-${d}-regcell"><input class="g-num" type="number" inputmode="decimal" step="0.25" min="0" id="g-${d}-reg" value="${escapeHtml(row.reg)}" oninput="onGridReg(${d}, this)" onchange="refreshRow(${d}, true)" aria-label="Regular hours day ${d}"><div class="g-sub" id="g-${d}-sub"></div></td>
                     ${['noc', 'adp', 'oncall', 'callback', 'vac', 'sick', 'otheracc'].map(k => numCell(d, k)).join('')}
@@ -2429,6 +2672,9 @@
             setCurrentMonthYear();
             loadSavedEmployeeInfo();
             loadCustomShifts();
+            loadSavedRole();
+            fillTimeSelect('csIn');
+            fillTimeSelect('csOut');
             updateShiftInfoDisplay();
             updateSecondHalfSubtitle();
             renderDaysGrid();
@@ -2443,6 +2689,9 @@
             // Save employee info when fields change
             document.getElementById('employeeName').addEventListener('blur', saveEmployeeInfo);
             document.getElementById('employeeNumber').addEventListener('blur', saveEmployeeInfo);
+            document.getElementById('employeeName').addEventListener('input', updateStepSummaries);
+            document.getElementById('employeeNumber').addEventListener('input', updateStepSummaries);
+            initCollapsibleSteps();
         });
         
         function checkFirstVisit() {
@@ -2572,6 +2821,8 @@
                     signatureCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
                 }
                 
+                updateStepSummaries();
+
                 // Ask if they want to see the tutorial again
                 if (confirm('Would you like to see the welcome tutorial again?')) {
                     localStorage.removeItem('cchs_has_visited');
@@ -2597,6 +2848,7 @@
 
                     // Save signature to localStorage
                     localStorage.setItem('cchs_signature_image', signatureImageData);
+                    updateStepSummaries();
                 };
                 reader.readAsDataURL(file);
             }
@@ -2710,6 +2962,7 @@
             signatureImageData = null;
             document.getElementById('signatureSavedLabel').style.display = 'none';
             localStorage.removeItem('cchs_signature_image');
+            updateStepSummaries();
         }
 
         function saveSignatureCanvas() {
@@ -2727,6 +2980,7 @@
 
             // Save to localStorage
             localStorage.setItem('cchs_signature_image', signatureImageData);
+                    updateStepSummaries();
 
             // Update UI
             document.getElementById('signatureSavedLabel').style.display = 'inline';
@@ -2779,6 +3033,7 @@
 
         function selectRole(role) {
             currentRole = role;
+            try { localStorage.setItem(ROLE_KEY, role); } catch (e) { /* ignore */ }
 
             // Update button states
             document.getElementById('physicianRoleBtn').classList.toggle('active', role === 'physician');
@@ -2791,6 +3046,7 @@
             updateShiftInfoDisplay();
             renderDaysGrid();
             updateSummary();
+            updateStepSummaries();
         }
 
                 function updateShiftInfoDisplay() {
@@ -2809,6 +3065,7 @@
             };
 
             let html = '';
+            let customHtml = '';
             Object.keys(shifts).forEach(shiftKey => {
                 const shift = shifts[shiftKey];
                 const display = shift.custom
@@ -2822,15 +3079,25 @@
                             <button type="button" onclick="deleteCustomShift('${shiftKey}')">Delete</button>
                         </div>` : '';
 
-                html += `
+                const box = `
                     <div class="shift-info-box" style="background: ${shift.color};">
                         <div class="shift-title">${display.emoji} ${display.name}</div>
                         <div class="shift-time">${timeIn} - ${timeOut}</div>
                         <div class="shift-duration">(${shift.hours} hours)</div>${controls}
                     </div>`;
+                if (shift.custom) customHtml += box; else html += box;
             });
 
             shiftInfoGrid.innerHTML = html;
+            const customGrid = document.getElementById('customShiftGrid');
+            if (customGrid) {
+                customGrid.innerHTML = customHtml + `
+                    <button type="button" class="shift-info-box add-shift-tile" onclick="openCustomEditor()">
+                        <div class="plus">＋</div>
+                        <div class="shift-title">Add your own shift</div>
+                        <div class="shift-time">e.g. 06:30 &ndash; 14:30</div>
+                    </button>`;
+            }
         }
 
                 function selectHalf(half) {
@@ -2979,8 +3246,8 @@
             document.getElementById('generateBtn').disabled = !gridHasEntries() || issues.errors.length > 0;
         }
         
-        // PDF output style. Times keep the familiar "8:00 AM" look and hours are
-        // written as decimals (7.5, 8, 80). Change these two helpers to restyle the PDF.
+        // PDF output style: 24-hour times (08:00) and decimal hours (7.5, 8, 80).
+        // Change these two helpers to restyle the PDF.
         function formatPdfTime(time24) {
             return formatTime(time24);
         }
@@ -2990,13 +3257,11 @@
             return Number.isFinite(n) ? String(n) : '';
         }
 
+        // All times are shown and written in 24-hour (military) format, e.g. 08:00, 17:30
         function formatTime(time24) {
-            if (!time24) return '';
+            if (!time24 || !isValidTime(time24)) return '';
             const [h, m] = time24.split(':');
-            const hour = parseInt(h);
-            const suffix = hour >= 12 ? 'PM' : 'AM';
-            const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
-            return hour12 + ':' + m + ' ' + suffix;
+            return String(parseInt(h, 10)).padStart(2, '0') + ':' + String(parseInt(m, 10)).padStart(2, '0');
         }
         
         async function generatePDF() {
@@ -3030,8 +3295,6 @@
                         // from the fields we fill so edits are accepted as typed.
                         field.acroField.dict.delete(PDFName.of('AA'));
                         field.acroField.getWidgets().forEach(w => w.dict.delete(PDFName.of('AA')));
-                        // The Time In/Out boxes are narrow; auto-size so "12:00 PM" fits un-clipped
-                        if (/^Time(In|Out)_Day-/.test(name)) field.setFontSize(0);
                         field.setText(String(value));
                     } catch (err) {
                         console.warn('Could not fill PDF field "' + name + '":', err);
