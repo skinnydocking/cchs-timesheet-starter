@@ -379,6 +379,14 @@
             line-height: 1.5;
         }
 
+        .grid-hint ul {
+            margin: 6px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .grid-hint li { margin-bottom: 4px; }
+        .grid-hint li:last-child { margin-bottom: 0; }
+
         .ts-grid-wrap {
             overflow-x: auto;
             border: 2px solid #2d3748;
@@ -1862,9 +1870,12 @@
                 <div class="grid-hint">
                     This mirrors columns 1&ndash;15 of the form. Times and hours from the shifts you picked are filled in;
                     add vacation, sick, on-call and other entries here, or fix anything that's off.
-                    <strong>Reg Hrs</strong> is filled automatically as hours worked + vacation + sick + other accruals + (12) Hrs,
-                    and every row with an entry must have it. Type over it to override (it will be marked <em>manual</em>).
-                    The grey <strong>Worked</strong> column is a helper and is not written to the PDF.
+                    <ul>
+                        <li><strong>Reg Hrs</strong> is filled automatically as hours worked + vacation + sick + other accruals + (12) Hrs.
+                            Every row with an entry must have it. Type over it to override (it will be marked <em>manual</em>).</li>
+                        <li>The grey <strong>work_hrs temp</strong> column is a scratch column holding the hours you worked (from your shift or In/Out times).
+                            It feeds Reg Hrs and is <strong>not</strong> written to the PDF.</li>
+                    </ul>
                 </div>
                 <div class="ts-grid-wrap"><table class="ts-grid" id="tsGrid"></table></div>
                 <div id="gridIssues"></div>
@@ -2538,7 +2549,7 @@
             const byKey = k => GRID_COLS.find(c => c.key === k);
 
             let html = `<thead>
-                <tr class="grp"><th class="daycell" rowspan="2">Day</th><th colspan="2">TIME</th><th class="helper" rowspan="2">Worked<br><small>helper</small></th><th rowspan="2">(3) REG HRS</th>
+                <tr class="grp"><th class="daycell" rowspan="2">Day</th><th colspan="2">TIME</th><th class="helper" rowspan="2">work_hrs<br><small>temp</small></th><th rowspan="2">(3) REG HRS</th>
                     <th colspan="4">ADDITIONAL HOURS</th><th colspan="6">NON WORK HOURS/OTHER</th><th rowspan="2">(14) ADMIN TIME</th><th rowspan="2">(15) SPT</th></tr>
                 <tr><th>(1) In</th><th>(2) Out</th>
                     ${['noc', 'adp', 'oncall', 'callback'].map(k => colTh(byKey(k))).join('')}
