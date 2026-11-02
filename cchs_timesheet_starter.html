@@ -1871,7 +1871,7 @@
                     This mirrors columns 1&ndash;15 of the form. Times and hours from the shifts you picked are filled in;
                     add vacation, sick, on-call and other entries here, or fix anything that's off.
                     <ul>
-                        <li><strong>Reg Hrs</strong> is filled automatically. Accruals (Vac, Sick, Other Accruals, (12) Hrs, Admin Time, SPT)
+                        <li><strong>Reg Hrs</strong> is filled automatically. Accruals (Vac, Sick, Other Accruals, (12) Hrs, AWOP/AWOL, Admin Time, SPT)
                             come <em>out of</em> the shift, not on top of it: an 8-hour day with 8 Vac is 8 Reg Hrs, and with 4 Vac it is 4 worked + 4 Vac = 8.
                             With no shift, Reg Hrs is just the accrual hours. Every row with an entry must have it.
                             Type over it to override (it will be marked <em>manual</em>).</li>
@@ -2446,9 +2446,9 @@
         const GRID_REG_TOTAL_FIELD = 'Reg Hours--Total Day';
         // Accrual-type columns. Hours entered here come OUT of the day's shift (they replace
         // worked time rather than adding to it), so an 8-hour shift with 8 Vac hours is still
-        // 8 Reg Hrs. Premium hours (NOC/ADP/On Call/Call Back) and AWOP/AWOL do not affect Reg Hrs.
-        const ACCRUAL_KEYS = ['vac', 'sick', 'otheracc', 'otherhrs', 'admin', 'spt'];
-        const ACCRUAL_LABELS = { vac: 'vac', sick: 'sick', otheracc: 'accr', otherhrs: 'hrs', admin: 'admin', spt: 'spt' };
+        // 8 Reg Hrs. Premium hours (NOC/ADP/On Call/Call Back) do not affect Reg Hrs.
+        const ACCRUAL_KEYS = ['vac', 'sick', 'otheracc', 'otherhrs', 'awop', 'admin', 'spt'];
+        const ACCRUAL_LABELS = { vac: 'vac', sick: 'sick', otheracc: 'accr', otherhrs: 'hrs', awop: 'awop', admin: 'admin', spt: 'spt' };
 
         let gridRows = {};   // day row (1..16) -> row state
         let gridContext = '';
