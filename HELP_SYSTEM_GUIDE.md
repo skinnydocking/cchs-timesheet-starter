@@ -34,9 +34,9 @@
 
 **Key Section - Shift Colors**:
 Shows three colored boxes matching the day button colors:
-- 🟢 Green box = Full Day (8am-5pm, 8h)
-- 🟠 Orange box = Morning (8am-12pm, 4h)
-- 🟣 Purple box = Afternoon (1pm-5pm, 4h)
+- 🟢 Green box = Full Day (08:00-17:00, 8h)
+- 🟠 Orange box = Morning (08:00-12:00, 4h)
+- 🟣 Purple box = Afternoon (13:00-17:00, 4h)
 
 ### 3. 🎉 First-Time Welcome Tutorial
 **When it appears**:
