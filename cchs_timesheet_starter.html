@@ -279,6 +279,360 @@
             font-weight: 500;
         }
         
+        .day-btn.selected.shift-custom {
+            color: white;
+        }
+
+        .custom-shifts {
+            margin-top: 16px;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            border: 2px dashed #cbd5e0;
+        }
+
+        .custom-shifts h3 {
+            margin: 0 0 4px 0;
+            font-size: 16px;
+            color: #2d3748;
+        }
+
+        .custom-shifts .hint {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .custom-shift-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            align-items: end;
+        }
+
+        .custom-shift-form label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 3px;
+        }
+
+        .custom-shift-form input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .custom-shift-form input:focus {
+            outline: none;
+            border-color: #2c5aa0;
+        }
+
+        .custom-shift-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .custom-shift-error {
+            color: #c53030;
+            font-size: 12px;
+            margin-top: 8px;
+            min-height: 14px;
+        }
+
+        .shift-info-box .shift-controls {
+            margin-top: 4px;
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .shift-info-box .shift-controls button {
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: white;
+            border-radius: 4px;
+            font-size: 10px;
+            padding: 1px 6px;
+            cursor: pointer;
+        }
+
+        .shift-info-box .shift-controls button:hover {
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        /* ---- Review & Adjust grid ---- */
+        .grid-hint {
+            font-size: 12px;
+            color: #4a5568;
+            background: #edf2f7;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .grid-hint ul {
+            margin: 6px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .grid-hint li { margin-bottom: 4px; }
+        .grid-hint li:last-child { margin-bottom: 0; }
+
+        .ts-grid-wrap {
+            overflow-x: auto;
+            border: 2px solid #2d3748;
+            border-radius: 8px;
+            background: #fff;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.ts-grid {
+            border-collapse: collapse;
+            min-width: 1240px;
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .ts-grid th, .ts-grid td {
+            border: 1px solid #a0aec0;
+            padding: 2px 3px;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .ts-grid thead th {
+            background: #e2e8f0;
+            color: #1a202c;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 3px;
+        }
+
+        .ts-grid thead tr.grp th {
+            background: #2d3748;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .ts-grid th.helper, .ts-grid td.helper {
+            background: #f7fafc;
+            border-left: 3px double #718096;
+            border-right: 3px double #718096;
+        }
+
+        .ts-grid .daycell {
+            position: sticky;
+            left: 0;
+            z-index: 2;
+            background: #fff;
+            font-weight: 700;
+            min-width: 58px;
+            text-align: left;
+            padding: 4px 6px;
+            vertical-align: middle;
+            box-shadow: 2px 0 0 #a0aec0;
+        }
+
+        .ts-grid thead .daycell { background: #e2e8f0; z-index: 3; }
+        .ts-grid tr.weekend .daycell { color: #a0aec0; }
+        .ts-grid tr.weekend td { background-color: #fafafa; }
+        .ts-grid .daycell small { display: block; font-weight: 400; color: #718096; font-size: 10px; }
+
+        .ts-grid input {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            padding: 5px 2px;
+            font-size: 13px;
+            text-align: center;
+            background: transparent;
+            font-family: inherit;
+        }
+
+        .ts-grid input:hover { border-color: #cbd5e0; }
+        .ts-grid input:focus { outline: none; border-color: #2c5aa0; background: #fff; }
+        .ts-grid input.g-time { min-width: 92px; }
+        .ts-grid input.g-num { min-width: 52px; }
+        .ts-grid input.g-desc { min-width: 150px; text-align: left; }
+
+        .ts-grid td.regcell input { font-weight: 700; }
+        .ts-grid td.regcell.auto { background: #f0fff4; }
+        .ts-grid td.regcell.manual { background: #fffaf0; box-shadow: inset 0 0 0 2px #ed8936; }
+        .ts-grid td.regcell.missing { background: #fff5f5; box-shadow: inset 0 0 0 2px #e53e3e; }
+
+        .ts-grid .g-sub {
+            font-size: 9.5px;
+            color: #718096;
+            min-height: 12px;
+            line-height: 1.2;
+            padding-bottom: 2px;
+        }
+
+        .ts-grid td.regcell.manual .g-sub { color: #c05621; }
+        .ts-grid td.regcell.missing .g-sub { color: #c53030; font-weight: 700; }
+        .ts-grid .g-sub a { color: #2c5aa0; cursor: pointer; text-decoration: underline; }
+
+        .ts-grid tfoot td {
+            background: #e2e8f0;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 7px 3px;
+            border-top: 3px solid #2d3748;
+            vertical-align: middle;
+        }
+
+        .ts-grid tfoot td.daycell { background: #e2e8f0; }
+
+        #gridIssues { margin-top: 10px; font-size: 13px; }
+        #gridIssues .issue-err { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
+        #gridIssues .issue-warn { background: #fffaf0; border: 1px solid #fbd38d; color: #9c4221; border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
+
+        /* ---- Collapsible setup steps ---- */
+        .section-title.step-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-start !important;
+            cursor: pointer;
+        }
+
+        .step-title .step-summary {
+            order: 1;
+            flex: 1;
+            display: none;
+            min-width: 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .step-title .step-summary .warn { color: #c05621; font-weight: 600; }
+        .step-title .quick-btn { order: 2; margin-left: auto; }
+        .step-title .step-toggle {
+            order: 3;
+            margin-left: auto;
+            border: 1px solid #cbd5e0;
+            background: #fff;
+            color: #2c5aa0;
+            border-radius: 14px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .step-title .quick-btn + .step-toggle { margin-left: 0; }
+        .section.collapsed .step-summary { display: block; }
+        .section.collapsed .step-body { display: none; }
+        .section.collapsed .section-title { margin-bottom: 0; }
+        .section.collapsed .section-title .quick-btn { display: none; }
+        .section.collapsed .step-toggle { margin-left: auto; }
+        .section.numbered.collapsed { margin-bottom: 14px; }
+        .step-done-row { margin-top: 12px; text-align: right; }
+
+        /* ---- Custom shifts: featured right under the standard shifts ---- */
+        .custom-shift-heading {
+            margin: 16px 0 8px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .custom-shift-heading .csh-star {
+            font-size: 30px;
+            line-height: 1;
+            vertical-align: -5px;
+            margin-right: 4px;
+        }
+
+        .custom-shift-heading .csh-sub {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #4a5568;
+            margin-top: 2px;
+        }
+
+        /* Pointer to the Custom Shift Creator in the Step 4 title */
+        .section-title .title-note {
+            font-size: 13px;
+            font-weight: 500;
+            color: #4a5568;
+            margin-left: 6px;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .section-title .star-link {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            line-height: 1;
+            padding: 0 2px;
+            vertical-align: -3px;
+        }
+
+        .section-title .star-link:hover { transform: scale(1.2); }
+
+        button.add-shift-tile {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            background: linear-gradient(135deg, #3182ce 0%, #805ad5 100%);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        button.add-shift-tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(49, 130, 206, 0.4);
+        }
+
+        button.add-shift-tile .plus {
+            font-size: 22px;
+            line-height: 1;
+            font-weight: 700;
+        }
+
+        .ts-grid select.g-time {
+            width: 100%;
+            min-width: 72px;
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            padding: 5px 2px;
+            font-size: 13px;
+            text-align: center;
+            text-align-last: center;
+            background: transparent;
+            font-family: inherit;
+        }
+
+        .ts-grid select.g-time:hover { border-color: #cbd5e0; }
+        .ts-grid select.g-time:focus { outline: none; border-color: #2c5aa0; background: #fff; }
+        .custom-shift-form select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #fff;
+            font-family: inherit;
+        }
+
         .quick-actions {
             display: flex;
             gap: 12px;
@@ -838,34 +1192,36 @@
             background: #e2e8f0;
         }
 
-        /* Shift Info Grid */
+        /* Shift Info Grid (compact tiles) */
         .shift-info-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(112px, 136px));
+            gap: 8px;
+            justify-content: start;
         }
 
         .shift-info-box {
-            padding: 16px;
+            padding: 8px 8px;
             border-radius: 8px;
             text-align: center;
             color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            line-height: 1.25;
         }
 
         .shift-info-box .shift-title {
             font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 4px;
+            font-size: 13px;
+            margin-bottom: 2px;
         }
 
         .shift-info-box .shift-time {
-            font-size: 14px;
+            font-size: 12px;
             opacity: 0.95;
         }
 
         .shift-info-box .shift-duration {
-            font-size: 13px;
+            font-size: 11px;
             opacity: 0.9;
         }
 
@@ -911,11 +1267,6 @@
 
             .day-btn .day-name {
                 font-size: 8px;
-            }
-
-            /* Stack shift demo boxes in 2 columns */
-            .shift-info-grid {
-                grid-template-columns: repeat(2, 1fr);
             }
 
             /* Adjust modal for tablets */
@@ -1079,28 +1430,6 @@
             .time-defaults .title {
                 font-size: 12px;
                 margin-bottom: 10px;
-            }
-
-            /* Stack shift display boxes vertically on very small screens */
-            .shift-info-grid {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-
-            .shift-info-box {
-                padding: 12px;
-            }
-
-            .shift-info-box .shift-title {
-                font-size: 14px;
-            }
-
-            .shift-info-box .shift-time {
-                font-size: 13px;
-            }
-
-            .shift-info-box .shift-duration {
-                font-size: 12px;
             }
 
             /* Time row - stack vertically */
@@ -1425,7 +1754,7 @@
             
             <!-- Day Selection -->
             <div class="section numbered" data-step="4">
-                <div class="section-title">Select Days & Shifts</div>
+                <div class="section-title">Select Days & Shifts <span class="title-note">&mdash; See <button type="button" class="star-link" onclick="scrollToCustomCreator()" aria-label="Go to the Custom Shift Creator" title="Go to the Custom Shift Creator">⭐</button> below if you want to create custom shifts</span></div>
                 <div class="quick-actions">
                     <span class="auto-select-label">Auto-Select:</span>
                     <div class="auto-select-group">
@@ -1436,7 +1765,7 @@
                 </div>
                 <div style="font-size: 13px; color: #2c5aa0; margin-bottom: 8px; padding: 12px; background: #edf2f7; border-radius: 8px; font-weight: 500;">
                     👆 <strong>Click each day below to select and cycle through shifts:</strong><br>
-                    1st click = 🟢 Full Day (8am-5pm) → 2nd click = 🟠 Morning (8am-12pm) → 3rd click = 🟣 Afternoon (1pm-5pm) → 4th click = ⚫ Evening (5pm-9pm) → 5th click = Deselect
+                    1st click = 🟢 Full Day (08:00-17:00) → 2nd click = 🟠 Morning (08:00-12:00) → 3rd click = 🟣 Afternoon (13:00-17:00) → 4th click = ⚫ Evening (17:00-21:00) → 5th click = Deselect
                 </div>
                 <div style="font-size: 13px; margin-bottom: 12px; padding: 12px; background: linear-gradient(135deg, #f6e05e 0%, #f6ad55 100%); border-radius: 8px; border-left: 4px solid #d69e2e; color: #744210; font-weight: 500;">
                     💡 <strong>Pro Tip for Clinic Providers:</strong> Click the "Weekdays" button first to select Mon-Fri, then click individual days to change their shift color as needed!
@@ -1452,27 +1781,68 @@
                     <div class="shift-info-grid" id="shiftInfoGrid">
                         <div class="shift-info-box" style="background: #48bb78;">
                             <div class="shift-title">🟢 Full Day</div>
-                            <div class="shift-time">8am - 5pm</div>
+                            <div class="shift-time">08:00 - 17:00</div>
                             <div class="shift-duration">(8 hours)</div>
                         </div>
                         <div class="shift-info-box" style="background: #f6ad55;">
                             <div class="shift-title">🟠 Morning</div>
-                            <div class="shift-time">8am - 12pm</div>
+                            <div class="shift-time">08:00 - 12:00</div>
                             <div class="shift-duration">(4 hours)</div>
                         </div>
                         <div class="shift-info-box" style="background: #9f7aea;">
                             <div class="shift-title">🟣 Afternoon</div>
-                            <div class="shift-time">1pm - 5pm</div>
+                            <div class="shift-time">13:00 - 17:00</div>
                             <div class="shift-duration">(4 hours)</div>
                         </div>
                         <div class="shift-info-box" style="background: #2d3748;">
                             <div class="shift-title">⚫ Evening</div>
-                            <div class="shift-time">5pm - 9pm</div>
+                            <div class="shift-time">17:00 - 21:00</div>
                             <div class="shift-duration">(4 hours)</div>
                         </div>
                     </div>
+                    <div class="custom-shift-heading" id="customShiftHeading"><span class="csh-star">⭐</span> Custom Shift Creator
+                        <span class="csh-sub">Don't work these exact times? Add your own shift &mdash; it's saved for next time and works just like the ones above.</span>
+                    </div>
+                    <div class="shift-info-grid" id="customShiftGrid"></div>
+
+                    <div class="custom-shifts" id="customEditor" style="display:none;">
+                        <h3 id="csTitle">➕ Add your own shift</h3>
+                        <div class="hint">
+                            Pick a start and end time (24-hour, 30-minute steps) and choose an unpaid break; hours fill in automatically
+                            but you can change them in half-hour steps. Your shift is saved in this browser, appears above in its own
+                            colour, and joins the click-to-cycle list. The exact times and hours are what get written on the PDF.
+                        </div>
+                        <div class="custom-shift-form">
+                            <div>
+                                <label for="csName">Name</label>
+                                <input type="text" id="csName" maxlength="20" placeholder="e.g. Early">
+                            </div>
+                            <div>
+                                <label for="csIn">Time In</label>
+                                <select id="csIn" onchange="onCustomShiftTimeChange()"></select>
+                            </div>
+                            <div>
+                                <label for="csOut">Time Out</label>
+                                <select id="csOut" onchange="onCustomShiftTimeChange()"></select>
+                            </div>
+                            <div>
+                                <label for="csBreak">Unpaid break</label>
+                                <select id="csBreak" onchange="onCustomShiftTimeChange()"><option value="0">None</option><option value="30">30 min</option><option value="60">60 min</option></select>
+                            </div>
+                            <div>
+                                <label for="csHours">Hours on PDF</label>
+                                <input type="number" id="csHours" min="0.5" max="24" step="0.5" oninput="customHoursEdited = true">
+                            </div>
+                        </div>
+                        <div class="custom-shift-actions">
+                            <button type="button" class="quick-btn" id="csSaveBtn" onclick="saveCustomShift()">➕ Add shift</button>
+                            <button type="button" class="quick-btn" id="csCancelBtn" onclick="closeCustomEditor()">Cancel</button>
+                        </div>
+                        <div class="custom-shift-error" id="csError"></div>
+                    </div>
+
                     <div style="margin-top: 12px; padding: 12px; background: white; border-radius: 8px; font-size: 13px; color: #4a5568; text-align: center;">
-                        💡 <strong>Tip:</strong> Click a day once for Full Day (green), twice for Morning (orange), three times for Afternoon (purple), four times for Evening (black), five times to deselect.
+                        💡 <strong>Tip:</strong> Click a day once for Full Day (green), twice for Morning (orange), three times for Afternoon (purple), four times for Evening (black), five times to deselect. Any custom shifts you add join the cycle after these.
                     </div>
                 </div>
             </div>
@@ -1494,6 +1864,25 @@
                 </div>
             </div>
             
+            <!-- Review & Adjust grid -->
+            <div class="section" id="gridSection">
+                <div class="section-title">Review &amp; Adjust Timesheet</div>
+                <div class="grid-hint">
+                    This mirrors columns 1&ndash;15 of the form. Times and hours from the shifts you picked are filled in;
+                    add vacation, sick, on-call and other entries here, or fix anything that's off.
+                    <ul>
+                        <li><strong>Reg Hrs</strong> is filled automatically. Accruals (Vac, Sick, Other Accruals, (12) Hrs, AWOP/AWOL, Admin Time, SPT)
+                            come <em>out of</em> the shift, not on top of it: an 8-hour day with 8 Vac is 8 Reg Hrs, and with 4 Vac it is 4 worked + 4 Vac = 8.
+                            With no shift, Reg Hrs is just the accrual hours. Every row with an entry must have it.
+                            Type over it to override (it will be marked <em>manual</em>).</li>
+                        <li>The grey <strong>work_hrs temp</strong> column is a scratch column holding the length of the day's shift (from your shift or In/Out times).
+                            It is <strong>not</strong> written to the PDF.</li>
+                    </ul>
+                </div>
+                <div class="ts-grid-wrap"><table class="ts-grid" id="tsGrid"></table></div>
+                <div id="gridIssues"></div>
+            </div>
+
             <!-- Generate Button -->
             <button class="generate-btn" id="generateBtn" onclick="generatePDF()">
                 Generate Filled Timesheet
@@ -1543,10 +1932,10 @@
                     <h3>🎨 Select Days & Shifts</h3>
                     <p><strong>Click each day button to cycle through shifts:</strong></p>
                     <div class="shift-demo">
-                        <div class="shift-demo-box full">🟢 Full Day<br>8am-5pm (8h)</div>
-                        <div class="shift-demo-box morning">🟠 Morning<br>8am-12pm (4h)</div>
-                        <div class="shift-demo-box afternoon">🟣 Afternoon<br>1pm-5pm (4h)</div>
-                        <div class="shift-demo-box evening">⚫ Evening<br>5pm-9pm (4h)</div>
+                        <div class="shift-demo-box full">🟢 Full Day<br>08:00-17:00 (8h)</div>
+                        <div class="shift-demo-box morning">🟠 Morning<br>08:00-12:00 (4h)</div>
+                        <div class="shift-demo-box afternoon">🟣 Afternoon<br>13:00-17:00 (4h)</div>
+                        <div class="shift-demo-box evening">⚫ Evening<br>17:00-21:00 (4h)</div>
                     </div>
                     <p><strong>Click sequence:</strong></p>
                     <ul>
@@ -1679,9 +2068,207 @@
             'second': { timeIn: '13:00', timeOut: '21:00', hours: 8, label: '2nd', color: '#f6ad55' }
         };
 
-        // Get current shifts based on role
+        // User-defined shifts (shared across roles, saved in localStorage)
+        const CUSTOM_SHIFTS_KEY = 'cchs_custom_shifts';
+        const CUSTOM_SHIFT_COLORS = ['#3182ce', '#d53f8c', '#319795', '#dd6b20', '#805ad5', '#718096'];
+        let customShifts = {};
+        let editingCustomKey = null;
+        let customHoursEdited = false;
+
+        // Get current shifts based on role (built-in shifts first, then custom ones)
         function getShifts() {
-            return currentRole === 'physician' ? physicianShifts : nurseShifts;
+            const base = currentRole === 'physician' ? physicianShifts : nurseShifts;
+            return Object.assign({}, base, customShifts);
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+
+        // Shift times are chosen from a list: 24-hour, 30-minute steps only
+        const TIME_OPTIONS = (() => {
+            const out = [];
+            for (let h = 0; h < 24; h++) for (const m of ['00', '30']) out.push(String(h).padStart(2, '0') + ':' + m);
+            return out;
+        })();
+        const TIME_OPTIONS_HTML = TIME_OPTIONS.map(t => `<option value="${t}">${t}</option>`).join('');
+
+        function fillTimeSelect(id) {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = '<option value="">--:--</option>' + TIME_OPTIONS_HTML;
+        }
+
+        function timeSelectHtml(d, field, value, label) {
+            const v = padTime(value);
+            let opts = '<option value="">--:--</option>' + TIME_OPTIONS_HTML;
+            if (v) {
+                opts = TIME_OPTIONS.includes(v)
+                    ? opts.replace(`value="${v}">`, `value="${v}" selected>`)
+                    : opts + `<option value="${v}" selected>${v}</option>`;
+            }
+            return `<select class="g-time" id="g-${d}-${field}" onchange="onGridTime(${d}, '${field}', this)" aria-label="${label} day ${d}">${opts}</select>`;
+        }
+
+        function isValidTime(t) {
+            return typeof t === 'string' && /^\d{1,2}:\d{2}$/.test(t);
+        }
+
+        function loadCustomShifts() {
+            customShifts = {};
+            try {
+                const raw = localStorage.getItem(CUSTOM_SHIFTS_KEY);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                Object.keys(parsed || {}).forEach(key => {
+                    const sh = parsed[key];
+                    if (key.startsWith('custom_') && sh && /^\d{1,2}:(00|30)$/.test(sh.timeIn) && /^\d{1,2}:(00|30)$/.test(sh.timeOut)
+                        && typeof sh.hours === 'number' && sh.hours > 0 && sh.hours <= 24) {
+                        customShifts[key] = {
+                            timeIn: sh.timeIn,
+                            timeOut: sh.timeOut,
+                            breakMin: Number(sh.breakMin) || 0,
+                            hours: sh.hours,
+                            name: String(sh.name || 'Custom').slice(0, 20),
+                            label: String(sh.label || sh.name || 'Cust').slice(0, 6),
+                            color: sh.color || CUSTOM_SHIFT_COLORS[0],
+                            custom: true
+                        };
+                    }
+                });
+            } catch (e) {
+                console.warn('Could not load custom shifts:', e);
+                customShifts = {};
+            }
+        }
+
+        function persistCustomShifts() {
+            try {
+                localStorage.setItem(CUSTOM_SHIFTS_KEY, JSON.stringify(customShifts));
+            } catch (e) {
+                console.warn('Could not save custom shifts:', e);
+            }
+        }
+
+        // Elapsed time between in/out (handles overnight) minus unpaid break, in hours
+        function calcShiftHours(timeIn, timeOut, breakMin) {
+            if (!isValidTime(timeIn) || !isValidTime(timeOut)) return null;
+            const [h1, m1] = timeIn.split(':').map(Number);
+            const [h2, m2] = timeOut.split(':').map(Number);
+            let mins = (h2 * 60 + m2) - (h1 * 60 + m1);
+            if (mins <= 0) mins += 24 * 60;
+            mins -= (Number(breakMin) || 0);
+            if (mins <= 0) return null;
+            return Math.round((mins / 60) * 100) / 100;
+        }
+
+        function onCustomShiftTimeChange() {
+            if (customHoursEdited) return;
+            const hrs = calcShiftHours(
+                document.getElementById('csIn').value,
+                document.getElementById('csOut').value,
+                document.getElementById('csBreak').value
+            );
+            document.getElementById('csHours').value = hrs === null ? '' : hrs;
+        }
+
+        function scrollToCustomCreator() {
+            const el = document.getElementById('customShiftHeading');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function openCustomEditor() {
+            const panel = document.getElementById('customEditor');
+            if (!panel) return;
+            panel.style.display = '';
+            const nameInput = document.getElementById('csName');
+            if (nameInput) nameInput.focus({ preventScroll: true });
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function closeCustomEditor() {
+            resetCustomShiftForm();
+            const panel = document.getElementById('customEditor');
+            if (panel) panel.style.display = 'none';
+        }
+
+        function resetCustomShiftForm() {
+            editingCustomKey = null;
+            customHoursEdited = false;
+            ['csName', 'csIn', 'csOut', 'csHours'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('csBreak').value = 0;
+            document.getElementById('csError').textContent = '';
+            document.getElementById('csSaveBtn').textContent = '➕ Add shift';
+            document.getElementById('csTitle').textContent = '➕ Add your own shift';
+        }
+
+        function saveCustomShift() {
+            const err = document.getElementById('csError');
+            const name = document.getElementById('csName').value.trim();
+            const timeIn = document.getElementById('csIn').value;
+            const timeOut = document.getElementById('csOut').value;
+            const breakMin = parseInt(document.getElementById('csBreak').value, 10) || 0;
+            const hours = parseFloat(document.getElementById('csHours').value);
+
+            if (!name) { err.textContent = 'Please give the shift a short name.'; return; }
+            if (!timeIn || !timeOut) { err.textContent = 'Please enter both a time in and a time out.'; return; }
+            if (!(hours > 0 && hours <= 24)) { err.textContent = 'Hours must be between 0.5 and 24.'; return; }
+            if (Math.abs(hours * 2 - Math.round(hours * 2)) > 1e-9) { err.textContent = 'Hours must be in half-hour steps (for example 7.5 or 8).'; return; }
+            if (Object.keys(customShifts).length >= 8 && !editingCustomKey) {
+                err.textContent = 'You can save up to 8 custom shifts. Delete one to add another.';
+                return;
+            }
+
+            const key = editingCustomKey || ('custom_' + Date.now().toString(36));
+            const colorIndex = Object.keys(customShifts).indexOf(key);
+            const color = (customShifts[key] && customShifts[key].color)
+                || CUSTOM_SHIFT_COLORS[(colorIndex >= 0 ? colorIndex : Object.keys(customShifts).length) % CUSTOM_SHIFT_COLORS.length];
+
+            customShifts[key] = {
+                timeIn, timeOut, breakMin, hours, name,
+                label: name.length <= 6 ? name : name.slice(0, 5) + '…',
+                color, custom: true
+            };
+            persistCustomShifts();
+            closeCustomEditor();
+            updateShiftInfoDisplay();
+            renderDaysGrid();
+            updateSummary();
+        }
+
+        function editCustomShift(key) {
+            const sh = customShifts[key];
+            if (!sh) return;
+            editingCustomKey = key;
+            customHoursEdited = true; // keep the saved hours until the times change
+            document.getElementById('csName').value = sh.name;
+            document.getElementById('csIn').value = sh.timeIn.padStart(5, '0');
+            document.getElementById('csOut').value = sh.timeOut.padStart(5, '0');
+            document.getElementById('csBreak').value = sh.breakMin || 0;
+            document.getElementById('csHours').value = sh.hours;
+            document.getElementById('csError').textContent = '';
+            document.getElementById('csSaveBtn').textContent = '💾 Save changes';
+            document.getElementById('csTitle').textContent = '✏️ Edit shift';
+            openCustomEditor();
+        }
+
+        function deleteCustomShift(key) {
+            const sh = customShifts[key];
+            if (!sh) return;
+            let inUse = 0;
+            selectedDays.forEach(v => { if (v === key) inUse++; });
+            const msg = inUse > 0
+                ? `Delete "${sh.name}"? ${inUse} selected day(s) using it will be deselected.`
+                : `Delete "${sh.name}"?`;
+            if (!confirm(msg)) return;
+            Array.from(selectedDays.keys()).forEach(d => { if (selectedDays.get(d) === key) selectedDays.delete(d); });
+            delete customShifts[key];
+            persistCustomShifts();
+            if (editingCustomKey === key) resetCustomShiftForm();
+            updateShiftInfoDisplay();
+            renderDaysGrid();
+            updateSummary();
         }
         
         // Embedded PDF template as base64
@@ -1746,11 +2333,382 @@
             "Employee Signature": [14.0094, 97.0146, 230.0, 113.779]
         };
         
+        // ---------------- Collapsible setup steps (1 = role, 2 = employee info) ----------------
+        const ROLE_KEY = 'cchs_role';
+
+        function loadSavedRole() {
+            try {
+                const r = localStorage.getItem(ROLE_KEY);
+                if (r === 'physician' || r === 'nurse') {
+                    currentRole = r;
+                    document.getElementById('physicianRoleBtn').classList.toggle('active', r === 'physician');
+                    document.getElementById('nurseRoleBtn').classList.toggle('active', r === 'nurse');
+                }
+            } catch (e) { /* storage unavailable: keep the default role */ }
+        }
+
+        function updateStepSummaries() {
+            const s1 = document.getElementById('stepSummary1');
+            const s2 = document.getElementById('stepSummary2');
+            if (s1) s1.textContent = currentRole === 'physician' ? '🩺 Physician (Outpatient Clinic)' : '💉 Nurse/Staff';
+            if (s2) {
+                const name = (document.getElementById('employeeName').value || '').trim();
+                const number = (document.getElementById('employeeNumber').value || '').trim();
+                const parts = [];
+                if (name) parts.push(escapeHtml(name));
+                if (number) parts.push('#' + escapeHtml(number));
+                parts.push(signatureImageData ? '✍ signature saved' : '<span class="warn">no signature</span>');
+                if (!name || !number) parts.unshift('<span class="warn">⚠ add name &amp; employee #</span>');
+                s2.innerHTML = parts.join(' · ');
+            }
+        }
+
+        function setStepCollapsed(n, collapsed) {
+            const sec = document.querySelector(`.section.numbered[data-step="${n}"]`);
+            const toggle = document.getElementById('stepToggle' + n);
+            if (!sec || !toggle) return;
+            sec.classList.toggle('collapsed', collapsed);
+            toggle.textContent = collapsed ? 'Edit ▾' : 'Hide ▴';
+            toggle.setAttribute('aria-expanded', String(!collapsed));
+            // The signature canvas measures itself, which is 0 while hidden
+            if (!collapsed && n === 2 && signatureCanvas && signatureCtx && signatureCanvas.getBoundingClientRect().width > 0) {
+                setTimeout(resizeCanvas, 0);
+            }
+        }
+
+        function initCollapsibleSteps() {
+            let returning = false, name = '', number = '';
+            try {
+                returning = localStorage.getItem('cchs_has_visited') === 'true';
+                name = localStorage.getItem('cchs_employee_name') || '';
+                number = localStorage.getItem('cchs_employee_number') || '';
+            } catch (e) { /* ignore */ }
+
+            [1, 2].forEach(n => {
+                const sec = document.querySelector(`.section.numbered[data-step="${n}"]`);
+                if (!sec || sec.querySelector('.step-body')) return;
+                const title = sec.querySelector('.section-title');
+                title.classList.add('step-title');
+
+                const body = document.createElement('div');
+                body.className = 'step-body';
+                while (title.nextSibling) body.appendChild(title.nextSibling);
+                sec.appendChild(body);
+
+                const done = document.createElement('div');
+                done.className = 'step-done-row';
+                done.innerHTML = `<button type="button" class="quick-btn" onclick="setStepCollapsed(${n}, true)">✓ Done</button>`;
+                body.appendChild(done);
+
+                const summary = document.createElement('span');
+                summary.className = 'step-summary';
+                summary.id = 'stepSummary' + n;
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'step-toggle';
+                toggle.id = 'stepToggle' + n;
+                toggle.textContent = 'Hide ▴';
+                toggle.setAttribute('aria-expanded', 'true');
+                toggle.addEventListener('click', () => setStepCollapsed(n, !sec.classList.contains('collapsed')));
+                title.appendChild(summary);
+                title.appendChild(toggle);
+                title.addEventListener('click', ev => {
+                    if (ev.target.closest('button')) return;
+                    setStepCollapsed(n, !sec.classList.contains('collapsed'));
+                });
+            });
+
+            updateStepSummaries();
+            // Returning users see a compact summary; first-time users see the full setup
+            if (returning) setStepCollapsed(1, true);
+            if (returning && name && number) setStepCollapsed(2, true);
+        }
+
+        // ---------------- Review & Adjust grid ----------------
+        // Columns that are entered by hand. `field` is the PDF field prefix for each day row
+        // (the form numbers its rows 1..16 within the pay-period half) and `total` the PDF
+        // field for the column total.
+        const GRID_COLS = [
+            { key: 'noc',      num: 4,  label: 'NOC',          field: 'AddHours-NOC_Day-',           total: 'AddHours--Total NOC' },
+            { key: 'adp',      num: 5,  label: 'ADP',          field: 'AddHours-ADP_Day-',           total: 'AddHours--Total ADP' },
+            { key: 'oncall',   num: 6,  label: 'On Call',      field: 'AddHours-OnCall_Day-',        total: 'AddHours--Total OnCall' },
+            { key: 'callback', num: 7,  label: 'Call Back',    field: 'AddHours-CallBack_Day-',      total: 'AddHours--Total CallBack' },
+            { key: 'vac',      num: 8,  label: 'Vac',          field: 'NonWork-Vacation_Day-',       total: 'NonWork-Total Vacation' },
+            { key: 'sick',     num: 9,  label: 'Sick',         field: 'NonWork-Sick_Day-',           total: 'NonWork-Total Sick Leave' },
+            { key: 'otheracc', num: 10, label: 'Other Accruals', field: 'NonWork-OtherAccruals_Day-', total: 'NonWork-Total Other Accruals' },
+            { key: 'otherhrs', num: 12, label: 'Hrs',          field: 'NonWork-Hours_Day-',          total: 'NonWork-Total Hours' },
+            { key: 'awop',     num: 13, label: 'AWOP/AWOL',    field: 'NonWork-AWOP_Day-',           total: 'NonWork-Total AWOP' },
+            { key: 'admin',    num: 14, label: 'Admin Time Hrs', field: 'NonWork-Admin Time_Day-',   total: 'NonWork-Total Admin Time' },
+            { key: 'spt',      num: 15, label: 'SPT',          field: 'NonWork-SPT_Day-',            total: 'NonWork-Total SPT' }
+        ];
+        const GRID_DESC_FIELD = 'NonWork-Other-Description_Day-';
+        const GRID_REG_FIELD = 'RegHours_Day-';
+        const GRID_REG_TOTAL_FIELD = 'Reg Hours--Total Day';
+        // Accrual-type columns. Hours entered here come OUT of the day's shift (they replace
+        // worked time rather than adding to it), so an 8-hour shift with 8 Vac hours is still
+        // 8 Reg Hrs. Premium hours (NOC/ADP/On Call/Call Back) do not affect Reg Hrs.
+        const ACCRUAL_KEYS = ['vac', 'sick', 'otheracc', 'otherhrs', 'awop', 'admin', 'spt'];
+        const ACCRUAL_LABELS = { vac: 'vac', sick: 'sick', otheracc: 'accr', otherhrs: 'hrs', awop: 'awop', admin: 'admin', spt: 'spt' };
+
+        let gridRows = {};   // day row (1..16) -> row state
+        let gridContext = '';
+
+        function num(v) {
+            const n = parseFloat(v);
+            return Number.isFinite(n) ? n : 0;
+        }
+
+        function round2(n) {
+            return Math.round(n * 100) / 100;
+        }
+
+        function padTime(t) {
+            if (!isValidTime(t)) return '';
+            const [h, m] = t.split(':');
+            return String(parseInt(h, 10)).padStart(2, '0') + ':' + m;
+        }
+
+        function elapsedMinutes(timeIn, timeOut) {
+            const [h1, m1] = timeIn.split(':').map(Number);
+            const [h2, m2] = timeOut.split(':').map(Number);
+            let mins = (h2 * 60 + m2) - (h1 * 60 + m1);
+            if (mins <= 0) mins += 24 * 60;
+            return mins;
+        }
+
+        function newGridRow() {
+            const vals = {};
+            GRID_COLS.forEach(c => vals[c.key] = '');
+            return { shiftSig: '', timeIn: '', timeOut: '', worked: '', workedManual: false, breakMin: 0,
+                     vals, desc: '', reg: '', regManual: false };
+        }
+
+        // Keep grid rows in step with the shifts picked on the calendar. A row is only
+        // re-seeded from a shift when that day's shift changes; typed entries are kept.
+        function syncGridFromShifts() {
+            const year = parseInt(document.getElementById('yearSelect').value);
+            const month = parseInt(document.getElementById('monthSelect').value);
+            const ctx = [year, month, monthHalf, currentRole].join('-');
+            if (ctx !== gridContext) {
+                gridRows = {};
+                gridContext = ctx;
+            }
+            const n = getDaysInHalf(year, month, monthHalf);
+            Object.keys(gridRows).forEach(k => { if (parseInt(k, 10) > n) delete gridRows[k]; });
+            for (let d = 1; d <= n; d++) {
+                const row = gridRows[d] || (gridRows[d] = newGridRow());
+                const key = selectedDays.get(d) || '';
+                const shift = key ? getShifts()[key] : null;
+                const sig = shift ? [key, shift.timeIn, shift.timeOut, shift.hours].join('|') : '';
+                if (sig !== row.shiftSig) {
+                    row.shiftSig = sig;
+                    if (shift) {
+                        row.timeIn = padTime(shift.timeIn);
+                        row.timeOut = padTime(shift.timeOut);
+                        row.worked = String(shift.hours);
+                        // Whatever break the shift implies (e.g. 8-5 = 9h elapsed, 8h paid)
+                        row.breakMin = Math.max(0, elapsedMinutes(shift.timeIn, shift.timeOut) - Math.round(shift.hours * 60));
+                    } else {
+                        row.timeIn = ''; row.timeOut = ''; row.worked = ''; row.breakMin = 0;
+                    }
+                    row.workedManual = false;
+                    row.regManual = false;
+                }
+            }
+        }
+
+        function accrualTotal(row) {
+            let t = 0;
+            ACCRUAL_KEYS.forEach(k => { t += num(row.vals[k]); });
+            return round2(t);
+        }
+
+        // Hours actually worked: the shift's hours minus whatever was taken as accruals
+        function netWorked(row) {
+            return round2(Math.max(0, num(row.worked) - accrualTotal(row)));
+        }
+
+        // Reg Hrs = worked time + accruals. Because accruals come out of the shift this is
+        // the larger of the shift hours and the accrual hours (no shift: just the accruals).
+        function computeReg(row) {
+            return round2(netWorked(row) + accrualTotal(row));
+        }
+
+        function rowHasEntry(row) {
+            if (row.timeIn || row.timeOut || row.desc.trim()) return true;
+            if (num(row.worked) > 0 || num(row.reg) > 0) return true;
+            return GRID_COLS.some(c => num(row.vals[c.key]) > 0);
+        }
+
+        function regBreakdown(row) {
+            const parts = [];
+            if (netWorked(row) > 0) parts.push(netWorked(row) + ' work');
+            ACCRUAL_KEYS.forEach(k => { if (num(row.vals[k]) > 0) parts.push(round2(num(row.vals[k])) + ' ' + ACCRUAL_LABELS[k]); });
+            return parts.join(' + ');
+        }
+
+        function gridDayLabel(d) {
+            const year = parseInt(document.getElementById('yearSelect').value);
+            const month = parseInt(document.getElementById('monthSelect').value);
+            const calendarDay = monthHalf === 'first' ? d : d + 15;
+            return { calendarDay, name: getDayName(getDayOfWeek(year, month, calendarDay)),
+                     weekend: [0, 6].includes(getDayOfWeek(year, month, calendarDay)) };
+        }
+
+        function renderGrid() {
+            const table = document.getElementById('tsGrid');
+            if (!table) return;
+            const days = Object.keys(gridRows).map(Number).sort((a, b) => a - b);
+            const colTh = c => `<th>(${c.num}) ${c.label}</th>`;
+            const byKey = k => GRID_COLS.find(c => c.key === k);
+
+            let html = `<thead>
+                <tr class="grp"><th class="daycell" rowspan="2">Day</th><th colspan="2">TIME</th><th class="helper" rowspan="2">work_hrs<br><small>temp</small></th><th rowspan="2">(3) REG HRS</th>
+                    <th colspan="4">ADDITIONAL HOURS</th><th colspan="6">NON WORK HOURS/OTHER</th><th rowspan="2">(14) ADMIN TIME</th><th rowspan="2">(15) SPT</th></tr>
+                <tr><th>(1) In</th><th>(2) Out</th>
+                    ${['noc', 'adp', 'oncall', 'callback'].map(k => colTh(byKey(k))).join('')}
+                    ${colTh(byKey('vac'))}${colTh(byKey('sick'))}${colTh(byKey('otheracc'))}<th>(11) Other / Description</th>${colTh(byKey('otherhrs'))}${colTh(byKey('awop'))}
+                </tr></thead><tbody>`;
+
+            const numCell = (d, k) => `<td><input class="g-num" type="number" inputmode="decimal" step="0.25" min="0" id="g-${d}-${k}"
+                value="${escapeHtml(gridRows[d].vals[k])}" oninput="onGridNum(${d}, '${k}', this)" aria-label="${escapeHtml(byKey(k).label)} day ${d}"></td>`;
+
+            days.forEach(d => {
+                const row = gridRows[d];
+                const lab = gridDayLabel(d);
+                html += `<tr id="g-row-${d}" class="${lab.weekend ? 'weekend' : ''}">
+                    <td class="daycell">${lab.calendarDay}<small>${lab.name}</small></td>
+                    <td>${timeSelectHtml(d, 'timeIn', row.timeIn, 'Time in')}</td>
+                    <td>${timeSelectHtml(d, 'timeOut', row.timeOut, 'Time out')}</td>
+                    <td class="helper"><input class="g-num" type="number" inputmode="decimal" step="0.25" min="0" id="g-${d}-worked" value="${escapeHtml(row.worked)}" oninput="onGridWorked(${d}, this)" aria-label="Hours worked day ${d}"></td>
+                    <td class="regcell auto" id="g-${d}-regcell"><input class="g-num" type="number" inputmode="decimal" step="0.25" min="0" id="g-${d}-reg" value="${escapeHtml(row.reg)}" oninput="onGridReg(${d}, this)" onchange="refreshRow(${d}, true)" aria-label="Regular hours day ${d}"><div class="g-sub" id="g-${d}-sub"></div></td>
+                    ${['noc', 'adp', 'oncall', 'callback', 'vac', 'sick', 'otheracc'].map(k => numCell(d, k)).join('')}
+                    <td><input class="g-desc" type="text" maxlength="24" id="g-${d}-desc" value="${escapeHtml(row.desc)}" oninput="onGridDesc(${d}, this)" aria-label="Other description day ${d}"></td>
+                    ${['otherhrs', 'awop', 'admin', 'spt'].map(k => numCell(d, k)).join('')}
+                </tr>`;
+            });
+
+            html += `</tbody><tfoot><tr><td class="daycell">TOTALS</td><td></td><td></td><td class="helper" id="gt-worked"></td><td id="gt-reg"></td>
+                ${['noc', 'adp', 'oncall', 'callback', 'vac', 'sick', 'otheracc'].map(k => `<td id="gt-${k}"></td>`).join('')}<td></td>
+                ${['otherhrs', 'awop', 'admin', 'spt'].map(k => `<td id="gt-${k}"></td>`).join('')}</tr></tfoot>`;
+            table.innerHTML = html;
+            days.forEach(d => refreshRow(d, true));
+        }
+
+        // Update one row's derived Reg Hrs, its caption and its status colour.
+        function refreshRow(d, force) {
+            const row = gridRows[d];
+            if (!row) return;
+            const regInput = document.getElementById(`g-${d}-reg`);
+            const cell = document.getElementById(`g-${d}-regcell`);
+            const sub = document.getElementById(`g-${d}-sub`);
+            if (!regInput || !cell || !sub) return;
+
+            const computed = computeReg(row);
+            if (!row.regManual) row.reg = computed > 0 ? String(computed) : '';
+            if (force || document.activeElement !== regInput) regInput.value = row.reg;
+
+            const hasEntry = rowHasEntry(row);
+            const missing = hasEntry && num(row.reg) <= 0;
+            const manualDiffers = row.regManual && round2(num(row.reg)) !== computed;
+            cell.className = 'regcell ' + (missing ? 'missing' : (manualDiffers ? 'manual' : 'auto'));
+
+            if (missing) sub.innerHTML = 'Reg Hrs required';
+            else if (manualDiffers) sub.innerHTML = `manual (auto = ${computed}) <a onclick="resetReg(${d})">reset</a>`;
+            else sub.textContent = regBreakdown(row);
+        }
+
+        function resetReg(d) {
+            gridRows[d].regManual = false;
+            refreshRow(d, true);
+            updateSummary();
+        }
+
+        function afterGridEdit(d) {
+            refreshRow(d, false);
+            updateSummary();
+        }
+
+        function onGridTime(d, field, el) {
+            const row = gridRows[d];
+            row[field] = el.value;
+            if (!row.workedManual && row.timeIn && row.timeOut) {
+                const h = calcShiftHours(row.timeIn, row.timeOut, row.breakMin);
+                if (h !== null) {
+                    row.worked = String(h);
+                    document.getElementById(`g-${d}-worked`).value = row.worked;
+                }
+            }
+            afterGridEdit(d);
+        }
+
+        function onGridWorked(d, el) {
+            gridRows[d].worked = el.value;
+            gridRows[d].workedManual = true;
+            afterGridEdit(d);
+        }
+
+        function onGridNum(d, key, el) {
+            gridRows[d].vals[key] = el.value;
+            afterGridEdit(d);
+        }
+
+        function onGridDesc(d, el) {
+            gridRows[d].desc = el.value;
+            afterGridEdit(d);
+        }
+
+        function onGridReg(d, el) {
+            const row = gridRows[d];
+            if (el.value === '') {
+                row.regManual = false;      // cleared: go back to automatic
+            } else {
+                row.regManual = true;
+                row.reg = el.value;
+            }
+            afterGridEdit(d);
+        }
+
+        function gridTotals() {
+            const t = { worked: 0, reg: 0 };
+            GRID_COLS.forEach(c => t[c.key] = 0);
+            Object.values(gridRows).forEach(row => {
+                t.worked += num(row.worked);
+                t.reg += num(row.reg);
+                GRID_COLS.forEach(c => { t[c.key] += num(row.vals[c.key]); });
+            });
+            Object.keys(t).forEach(k => t[k] = round2(t[k]));
+            return t;
+        }
+
+        function getGridIssues() {
+            const errors = [], warnings = [];
+            Object.keys(gridRows).map(Number).sort((a, b) => a - b).forEach(d => {
+                const row = gridRows[d];
+                const label = gridDayLabel(d);
+                const tag = `${label.name} ${label.calendarDay}`;
+                if (!rowHasEntry(row)) return;
+                if (num(row.reg) <= 0) errors.push(`${tag}: Reg Hrs is required for any row with an entry.`);
+                if (num(row.reg) > 24) warnings.push(`${tag}: Reg Hrs is over 24.`);
+                if ((row.timeIn && !row.timeOut) || (!row.timeIn && row.timeOut)) warnings.push(`${tag}: only one of Time In / Time Out is filled.`);
+                if (row.regManual && round2(num(row.reg)) !== computeReg(row)) warnings.push(`${tag}: Reg Hrs was changed by hand (auto would be ${computeReg(row)}).`);
+            });
+            return { errors, warnings };
+        }
+
+        function gridHasEntries() {
+            return Object.values(gridRows).some(rowHasEntry);
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             initializeYearSelect();
             setCurrentMonthYear();
             loadSavedEmployeeInfo();
+            loadCustomShifts();
+            loadSavedRole();
+            fillTimeSelect('csIn');
+            fillTimeSelect('csOut');
             updateShiftInfoDisplay();
             updateSecondHalfSubtitle();
             renderDaysGrid();
@@ -1765,6 +2723,9 @@
             // Save employee info when fields change
             document.getElementById('employeeName').addEventListener('blur', saveEmployeeInfo);
             document.getElementById('employeeNumber').addEventListener('blur', saveEmployeeInfo);
+            document.getElementById('employeeName').addEventListener('input', updateStepSummaries);
+            document.getElementById('employeeNumber').addEventListener('input', updateStepSummaries);
+            initCollapsibleSteps();
         });
         
         function checkFirstVisit() {
@@ -1894,6 +2855,8 @@
                     signatureCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
                 }
                 
+                updateStepSummaries();
+
                 // Ask if they want to see the tutorial again
                 if (confirm('Would you like to see the welcome tutorial again?')) {
                     localStorage.removeItem('cchs_has_visited');
@@ -1919,6 +2882,7 @@
 
                     // Save signature to localStorage
                     localStorage.setItem('cchs_signature_image', signatureImageData);
+                    updateStepSummaries();
                 };
                 reader.readAsDataURL(file);
             }
@@ -2032,6 +2996,7 @@
             signatureImageData = null;
             document.getElementById('signatureSavedLabel').style.display = 'none';
             localStorage.removeItem('cchs_signature_image');
+            updateStepSummaries();
         }
 
         function saveSignatureCanvas() {
@@ -2049,6 +3014,7 @@
 
             // Save to localStorage
             localStorage.setItem('cchs_signature_image', signatureImageData);
+                    updateStepSummaries();
 
             // Update UI
             document.getElementById('signatureSavedLabel').style.display = 'inline';
@@ -2101,6 +3067,7 @@
 
         function selectRole(role) {
             currentRole = role;
+            try { localStorage.setItem(ROLE_KEY, role); } catch (e) { /* ignore */ }
 
             // Update button states
             document.getElementById('physicianRoleBtn').classList.toggle('active', role === 'physician');
@@ -2113,6 +3080,7 @@
             updateShiftInfoDisplay();
             renderDaysGrid();
             updateSummary();
+            updateStepSummaries();
         }
 
                 function updateShiftInfoDisplay() {
@@ -2131,21 +3099,39 @@
             };
 
             let html = '';
+            let customHtml = '';
             Object.keys(shifts).forEach(shiftKey => {
                 const shift = shifts[shiftKey];
-                const display = shiftDisplay[shiftKey] || { emoji: '⚪', name: shiftKey };
+                const display = shift.custom
+                    ? { emoji: '⭐', name: escapeHtml(shift.name) }
+                    : (shiftDisplay[shiftKey] || { emoji: '⚪', name: shiftKey });
                 const timeIn = formatTime(shift.timeIn);
                 const timeOut = formatTime(shift.timeOut);
+                const controls = shift.custom ? `
+                        <div class="shift-controls">
+                            <button type="button" onclick="editCustomShift('${shiftKey}')">Edit</button>
+                            <button type="button" onclick="deleteCustomShift('${shiftKey}')">Delete</button>
+                        </div>` : '';
 
-                html += `
+                const box = `
                     <div class="shift-info-box" style="background: ${shift.color};">
                         <div class="shift-title">${display.emoji} ${display.name}</div>
                         <div class="shift-time">${timeIn} - ${timeOut}</div>
-                        <div class="shift-duration">(${shift.hours} hours)</div>
+                        <div class="shift-duration">(${shift.hours} hours)</div>${controls}
                     </div>`;
+                if (shift.custom) customHtml += box; else html += box;
             });
 
             shiftInfoGrid.innerHTML = html;
+            const customGrid = document.getElementById('customShiftGrid');
+            if (customGrid) {
+                customGrid.innerHTML = customHtml + `
+                    <button type="button" class="shift-info-box add-shift-tile" onclick="openCustomEditor()">
+                        <div class="plus">＋</div>
+                        <div class="shift-title">Add your own shift</div>
+                        <div class="shift-time">e.g. 06:30 &ndash; 14:30</div>
+                    </button>`;
+            }
         }
 
                 function selectHalf(half) {
@@ -2177,6 +3163,7 @@
                     if (shift === 'morning' || shift === 'second') className += ' shift-morning';
                     else if (shift === 'afternoon') className += ' shift-afternoon';
                     else if (shift === 'evening') className += ' shift-evening';
+                    else if (getShifts()[shift] && getShifts()[shift].custom) className += ' shift-custom';
                 }
                 if (isWeekend) className += ' weekend';
                 
@@ -2185,11 +3172,18 @@
                 btn.innerHTML = `
                     <div class="day-number">${calendarDay}</div>
                     <div class="day-name">${getDayName(dayOfWeek)}</div>
-                    ${shift ? `<div class="shift-indicator">${getShifts()[shift].label}</div>` : ''}
+                    ${shift ? `<div class="shift-indicator">${escapeHtml(getShifts()[shift].label)}</div>` : ''}
                 `;
+                if (shift && getShifts()[shift] && getShifts()[shift].custom) {
+                    btn.style.background = getShifts()[shift].color;
+                    btn.style.borderColor = getShifts()[shift].color;
+                }
                 btn.onclick = () => toggleDay(i);
                 grid.appendChild(btn);
             }
+
+            syncGridFromShifts();
+            renderGrid();
         }
         
         function toggleDay(day) {
@@ -2255,33 +3249,58 @@
         
         function clearAll() {
             selectedDays.clear();
+            gridRows = {};
             renderDaysGrid();
             updateSummary();
         }
         
         function updateSummary() {
-            let totalHours = 0;
-            selectedDays.forEach((shift, day) => {
-                totalHours += getShifts()[shift].hours;
-            });
+            const totals = gridTotals();
+            const daysWorked = Object.values(gridRows).filter(r => netWorked(r) > 0).length;
 
-            document.getElementById('totalHours').textContent = totalHours;
-            document.getElementById('daysWorked').textContent = selectedDays.size;
+            document.getElementById('totalHours').textContent = totals.reg;
+            document.getElementById('daysWorked').textContent = daysWorked;
 
-            document.getElementById('generateBtn').disabled = selectedDays.size === 0;
+            // Column totals row
+            const setTotal = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v > 0 ? v : ''; };
+            setTotal('gt-worked', totals.worked);
+            setTotal('gt-reg', totals.reg);
+            GRID_COLS.forEach(c => setTotal('gt-' + c.key, totals[c.key]));
+
+            // Problems (errors block generating; warnings don't)
+            const issues = getGridIssues();
+            const box = document.getElementById('gridIssues');
+            if (box) {
+                let html = '';
+                if (issues.errors.length) html += `<div class="issue-err"><strong>Fix before generating:</strong><br>${issues.errors.map(escapeHtml).join('<br>')}</div>`;
+                if (issues.warnings.length) html += `<div class="issue-warn"><strong>Worth a look:</strong><br>${issues.warnings.map(escapeHtml).join('<br>')}</div>`;
+                box.innerHTML = html;
+            }
+
+            document.getElementById('generateBtn').disabled = !gridHasEntries() || issues.errors.length > 0;
         }
         
+        // PDF output style: 24-hour times (08:00) and decimal hours (7.5, 8, 80).
+        // Change these two helpers to restyle the PDF.
+        function formatPdfTime(time24) {
+            return formatTime(time24);
+        }
+
+        function formatPdfHours(hours) {
+            const n = Math.round(Number(hours) * 100) / 100;
+            return Number.isFinite(n) ? String(n) : '';
+        }
+
+        // All times are shown and written in 24-hour (military) format, e.g. 08:00, 17:30
         function formatTime(time24) {
-            if (!time24) return '';
+            if (!time24 || !isValidTime(time24)) return '';
             const [h, m] = time24.split(':');
-            const hour = parseInt(h);
-            const suffix = hour >= 12 ? 'PM' : 'AM';
-            const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
-            return hour12 + ':' + m + ' ' + suffix;
+            return String(parseInt(h, 10)).padStart(2, '0') + ':' + String(parseInt(m, 10)).padStart(2, '0');
         }
         
         async function generatePDF() {
-            if (selectedDays.size === 0) return;
+            if (!gridHasEntries()) return;
+            if (getGridIssues().errors.length) return;
             
             const statusDiv = document.getElementById('status');
             statusDiv.className = 'status processing';
@@ -2298,82 +3317,43 @@
                 const pages = pdfDoc.getPages();
                 const page = pages[0];
                 
-                // Remove the second page (instructions page)
-                if (pages.length > 1) {
-                    pdfDoc.removePage(1);
-                }
-                
-                // Get font
-                const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-                const fontSize = 9;
-                
+                // Fill the template's real, editable form fields (so everything,
+                // including the totals, can still be corrected in any PDF editor).
+                const form = pdfDoc.getForm();
+                const { PDFName } = PDFLib;
+                const setField = (name, value) => {
+                    try {
+                        const field = form.getTextField(name);
+                        // The template attaches HH:MM time validators to its hour columns, which
+                        // reject decimal hours (7.5) when someone edits the PDF later. Remove them
+                        // from the fields we fill so edits are accepted as typed.
+                        field.acroField.dict.delete(PDFName.of('AA'));
+                        field.acroField.getWidgets().forEach(w => w.dict.delete(PDFName.of('AA')));
+                        field.setText(String(value));
+                    } catch (err) {
+                        console.warn('Could not fill PDF field "' + name + '":', err);
+                    }
+                };
+
                 // Get form data
                 const employeeName = document.getElementById('employeeName').value;
                 const employeeNumber = document.getElementById('employeeNumber').value;
-                
-                // Add today's date
+
+                // Date signed = today
                 const today = new Date();
-                const dateString = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
-                const dateField = fieldPositions["Date Employee Signed"];
-                if (dateField) {
-                    page.drawText(dateString, {
-                        x: dateField[0] + 2,
-                        y: dateField[1] + 3,
-                        size: 10,
-                        font: font,
-                        color: rgb(0, 0, 0)
-                    });
+                setField('Date Employee Signed', `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`);
+
+                // Pay period half (radio group on the form)
+                try {
+                    form.getRadioGroup('Month Half').select(monthHalf === 'first' ? '1st half' : '2nd half');
+                } catch (err) {
+                    console.warn('Could not select pay period half:', err);
                 }
-                
-                // Draw checkmark for selected month half
-                const checkboxField = monthHalf === 'first' ? 
-                    fieldPositions["MonthHalf_1st"] : 
-                    fieldPositions["MonthHalf_2nd"];
-                
-                if (checkboxField) {
-                    // Draw an X for the checkbox
-                    const checkSize = 6;
-                    const centerX = checkboxField[0] + (checkboxField[2] - checkboxField[0]) / 2;
-                    const centerY = checkboxField[1] + (checkboxField[3] - checkboxField[1]) / 2;
-                    
-                    page.drawText('X', {
-                        x: centerX - checkSize/2,
-                        y: centerY - checkSize/2,
-                        size: 8,
-                        font: font,
-                        color: rgb(0, 0, 0)
-                    });
-                }
-                
-                // Add employee name
-                if (employeeName) {
-                    const nameField = fieldPositions["Employee Name"];
-                    if (nameField) {
-                        page.drawText(employeeName, {
-                            x: nameField[0] + 2,
-                            y: nameField[1] + 3,
-                            size: 10,
-                            font: font,
-                            color: rgb(0, 0, 0)
-                        });
-                    }
-                }
-                
-                // Add employee number
-                if (employeeNumber) {
-                    const empNumField = fieldPositions["Employee #"];
-                    if (empNumField) {
-                        page.drawText(employeeNumber, {
-                            x: empNumField[0] + 2,
-                            y: empNumField[1] + 3,
-                            size: 10,
-                            font: font,
-                            color: rgb(0, 0, 0)
-                        });
-                    }
-                }
-                
-                // Add signature image
+
+                if (employeeName) setField('Employee Name', employeeName);
+                if (employeeNumber) setField('Employee #', employeeNumber);
+
+                // Add signature image (the form has no signature field, so this stays an image)
                 if (signatureImageData) {
                     try {
                         let signatureImage;
@@ -2384,7 +3364,7 @@
                             const jpgData = signatureImageData.split(',')[1];
                             signatureImage = await pdfDoc.embedJpg(jpgData);
                         }
-                        
+
                         if (signatureImage) {
                             const sigField = fieldPositions["Employee Signature"];
                             const sigWidth = 100;
@@ -2400,62 +3380,32 @@
                         console.error('Error embedding signature:', err);
                     }
                 }
-                
-                // Add text for each selected day
-                let totalHours = 0;
-                selectedDays.forEach((shiftType, day) => {
-                    const shift = getShifts()[shiftType];
-                    totalHours += shift.hours;
-                    
-                    // Time In
-                    const timeInField = fieldPositions[`TimeIn_Day-${day}`];
-                    if (timeInField) {
-                        page.drawText(formatTime(shift.timeIn), {
-                            x: timeInField[0] + 2,
-                            y: timeInField[1] + 3,
-                            size: fontSize,
-                            font: font,
-                            color: rgb(0, 0, 0)
-                        });
-                    }
-                    
-                    // Time Out
-                    const timeOutField = fieldPositions[`TimeOut_Day-${day}`];
-                    if (timeOutField) {
-                        page.drawText(formatTime(shift.timeOut), {
-                            x: timeOutField[0] + 2,
-                            y: timeOutField[1] + 3,
-                            size: fontSize,
-                            font: font,
-                            color: rgb(0, 0, 0)
-                        });
-                    }
-                    
-                    // Reg Hours
-                    const regHoursField = fieldPositions[`RegHours_Day-${day}`];
-                    if (regHoursField) {
-                        page.drawText(shift.hours.toString(), {
-                            x: regHoursField[0] + 8,
-                            y: regHoursField[1] + 3,
-                            size: fontSize,
-                            font: font,
-                            color: rgb(0, 0, 0)
-                        });
-                    }
-                });
-                
-                // Add total
-                const totalField = fieldPositions["RegHours--Total Day"];
-                if (totalField) {
-                    page.drawText(totalHours.toString(), {
-                        x: totalField[0] + 8,
-                        y: totalField[1] + 3,
-                        size: fontSize,
-                        font: font,
-                        color: rgb(0, 0, 0)
+
+                // Fill every row that has an entry, straight from the grid
+                const totals = gridTotals();
+                Object.keys(gridRows).map(Number).forEach(day => {
+                    const row = gridRows[day];
+                    if (!rowHasEntry(row)) return;
+                    if (row.timeIn) setField(`TimeIn_Day-${day}`, formatPdfTime(row.timeIn));
+                    if (row.timeOut) setField(`TimeOut_Day-${day}`, formatPdfTime(row.timeOut));
+                    setField(`${GRID_REG_FIELD}${day}`, formatPdfHours(row.reg));
+                    GRID_COLS.forEach(c => {
+                        if (num(row.vals[c.key]) > 0) setField(`${c.field}${day}`, formatPdfHours(row.vals[c.key]));
                     });
+                    if (row.desc.trim()) setField(`${GRID_DESC_FIELD}${day}`, row.desc.trim());
+                });
+
+                // Column totals (the form's total fields; blank when a column is empty)
+                setField(GRID_REG_TOTAL_FIELD, formatPdfHours(totals.reg));
+                GRID_COLS.forEach(c => {
+                    if (totals[c.key] > 0) setField(c.total, formatPdfHours(totals[c.key]));
+                });
+
+                // Remove the second page (instructions page, has no fields)
+                if (pdfDoc.getPageCount() > 1) {
+                    pdfDoc.removePage(1);
                 }
-                
+
                 // Save and download
                 const filledPdfBytes = await pdfDoc.save();
                 const blob = new Blob([filledPdfBytes], { type: 'application/pdf' });

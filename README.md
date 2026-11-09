@@ -13,7 +13,12 @@ A simple, browser-based tool for Contra Costa Health Services physicians and nur
 - **Multiple Role Support** - Separate shift options for Physicians and Nurses/Staff
 - **Flexible Shifts** - Different shift configurations based on your role
   - **Physicians**: Full Day, Morning, Afternoon, Evening shifts
-  - **Nurses/Staff**: First Shift (8am-5pm) and Second Shift (1pm-9pm)
+  - **Nurses/Staff**: First Shift (08:00-17:00) and Second Shift (13:00-21:00)
+- **24-Hour Time** - All times are military time, chosen in 30-minute steps (no AM/PM, no odd minutes)
+- **Custom Shifts** - The Custom Shift Creator (look for the ⭐) sits right under the standard shifts, with an "Add your own shift" tile; add shifts like 06:30-14:30 with their own hours. They're saved in your browser and join the click-to-cycle list
+- **Collapsible Setup** - Role and employee info fold into a one-line summary (Edit to reopen) once you've set them up, leaving room for the timesheet itself
+- **Review & Adjust Grid** - After picking shifts, a grid that mirrors the form's columns 1-15 lets you add vacation, sick, on-call and other entries, with live column totals. Reg Hrs is filled in automatically for every row: accruals (Vac, Sick, Other Accruals, Hrs, Admin Time, SPT) come out of the shift rather than adding to it (8h shift + 8h Vac = 8 Reg Hrs), and rows missing it are flagged
+- **Editable PDF** - Values are written into the form's real fields, so you can correct times, hours, or totals afterward in any PDF editor
 - **Built-in PDF Template** - No need to upload a blank timesheet every time
 - **Easy Day Selection** - Visual calendar with quick-select options
 - **Professional Output** - Generates properly formatted, signed PDFs
@@ -60,15 +65,15 @@ A simple, browser-based tool for Contra Costa Health Services physicians and nur
 4. **Select Days & Shifts**: Click each day to cycle through available shifts
 
    **For Physicians:**
-   - 1st click: 🟢 Full Day (8am-5pm, 8 hours)
-   - 2nd click: 🟠 Morning (8am-12pm, 4 hours)
-   - 3rd click: 🟣 Afternoon (1pm-5pm, 4 hours)
-   - 4th click: ⚫ Evening (5pm-9pm, 4 hours)
+   - 1st click: 🟢 Full Day (08:00-17:00, 8 hours)
+   - 2nd click: 🟠 Morning (08:00-12:00, 4 hours)
+   - 3rd click: 🟣 Afternoon (13:00-17:00, 4 hours)
+   - 4th click: ⚫ Evening (17:00-21:00, 4 hours)
    - 5th click: Deselect the day
 
    **For Nurses/Staff:**
-   - 1st click: 🟢 First Shift (8am-5pm, 8 hours)
-   - 2nd click: 🟠 Second Shift (1pm-9pm, 8 hours)
+   - 1st click: 🟢 First Shift (08:00-17:00, 8 hours)
+   - 2nd click: 🟠 Second Shift (13:00-21:00, 8 hours)
    - 3rd click: Deselect the day
 
    **Quick Selection Options:**
@@ -111,6 +116,8 @@ The app saves the following information locally:
 - Employee Number (key: `cchs_employee_number`)
 - Signature Image (key: `cchs_signature_image`)
 - Tutorial Status (key: `cchs_has_visited`)
+- Role (key: `cchs_role`)
+- Custom Shifts (key: `cchs_custom_shifts`) - not cleared by "Clear Saved Info"
 
 This information persists between sessions and is automatically filled in when you return.
 
