@@ -16,6 +16,7 @@ A simple, browser-based tool for Contra Costa Health Services physicians and nur
   - **Nurses/Staff**: First Shift (08:00-17:00) and Second Shift (13:00-21:00)
 - **24-Hour Time** - All times are military time, chosen in 30-minute steps (no AM/PM, no odd minutes)
 - **Custom Shifts** - The Custom Shift Creator (look for the ⭐) sits right under the standard shifts, with an "Add your own shift" tile; add shifts like 06:30-14:30 with their own hours. They're saved in your browser and join the click-to-cycle list
+- **Weekly Admin Time** - Under the Custom Shift Creator, pick a weekday and hours (e.g. every Thursday, 4 hours) and that Admin Time accrual is filled in every week automatically. You can still change any day in the grid; the setting is saved in your browser
 - **Collapsible Setup** - Role and employee info fold into a one-line summary (Edit to reopen) once you've set them up, leaving room for the timesheet itself
 - **Review & Adjust Grid** - After picking shifts, a grid that mirrors the form's columns 1-15 lets you add vacation, sick, on-call and other entries, with live column totals. Reg Hrs is filled in automatically for every row: accruals (Vac, Sick, Other Accruals, Hrs, Admin Time, SPT) come out of the shift rather than adding to it (8h shift + 8h Vac = 8 Reg Hrs), and rows missing it are flagged
 - **Editable PDF** - Values are written into the form's real fields, so you can correct times, hours, or totals afterward in any PDF editor
@@ -118,6 +119,7 @@ The app saves the following information locally:
 - Tutorial Status (key: `cchs_has_visited`)
 - Role (key: `cchs_role`)
 - Custom Shifts (key: `cchs_custom_shifts`) - not cleared by "Clear Saved Info"
+- Weekly Admin Time (key: `cchs_weekly_admin`) - not cleared by "Clear Saved Info"
 
 This information persists between sessions and is automatically filled in when you return.
 
