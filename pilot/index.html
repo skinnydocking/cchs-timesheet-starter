@@ -198,6 +198,35 @@
         
         .day-spacer { visibility: hidden; }
 
+        .weekly-admin {
+            margin-top: 6px;
+            padding: 12px 14px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+        }
+        .weekly-admin-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px 10px;
+            font-size: 14px;
+            color: #2d3748;
+        }
+        .weekly-admin-row select {
+            padding: 6px 8px;
+            border: 2px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+        .weekly-admin-status {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+        .weekly-admin-status.on { color: #276749; font-weight: 600; }
+
         .day-btn {
             aspect-ratio: 1;
             border: 2px solid #e2e8f0;
@@ -1857,6 +1886,25 @@
                         <div class="custom-shift-error" id="csError"></div>
                     </div>
 
+                    <div class="custom-shift-heading" id="weeklyAdminHeading"><span class="csh-star">🗓️</span> Admin time: need to add standard time every week?
+                        <span class="csh-sub">Use this to add an Admin Time accrual at a standard time every week.</span>
+                    </div>
+                    <div class="weekly-admin" id="weeklyAdmin">
+                        <div class="weekly-admin-row">
+                            <label for="waDay"><strong>Every</strong></label>
+                            <select id="waDay" onchange="onWeeklyAdminChange()">
+                                <option value="">(not used)</option>
+                                <option value="0">Sunday</option><option value="1">Monday</option><option value="2">Tuesday</option>
+                                <option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option>
+                                <option value="6">Saturday</option>
+                            </select>
+                            <label for="waHours">add</label>
+                            <select id="waHours" onchange="onWeeklyAdminChange()"></select>
+                            <span>hours of Admin Time</span>
+                        </div>
+                        <div class="weekly-admin-status" id="waStatus"></div>
+                    </div>
+
                     <div style="margin-top: 12px; padding: 12px; background: white; border-radius: 8px; font-size: 13px; color: #4a5568; text-align: center;">
                         💡 <strong>Tip:</strong> Click a day once for Full Day (green), twice for Morning (orange), three times for Afternoon (purple), four times for Evening (black), five times to deselect. Any custom shifts you add join the cycle after these.
                     </div>
@@ -2086,6 +2134,9 @@
 
         // User-defined shifts (shared across roles, saved in localStorage)
         const CUSTOM_SHIFTS_KEY = 'cchs_custom_shifts';
+        const WEEKLY_ADMIN_KEY = 'cchs_weekly_admin';
+        const WEEKDAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        let weeklyAdmin = null;   // { day: 0-6, hours: number } or null when not used
         const CUSTOM_SHIFT_COLORS = ['#3182ce', '#d53f8c', '#319795', '#dd6b20', '#805ad5', '#718096'];
         let customShifts = {};
         let editingCustomKey = null;
@@ -2129,6 +2180,56 @@
 
         function isValidTime(t) {
             return typeof t === 'string' && /^\d{1,2}:\d{2}$/.test(t);
+        }
+
+        // ----- Weekly standard Admin Time -----
+        function fillWeeklyAdminHours() {
+            const sel = document.getElementById('waHours');
+            let html = '';
+            for (let h = 0.5; h <= 12; h += 0.5) html += `<option value="${h}">${h}</option>`;
+            sel.innerHTML = html;
+            sel.value = '4';
+        }
+
+        function loadWeeklyAdmin() {
+            weeklyAdmin = null;
+            try {
+                const raw = localStorage.getItem(WEEKLY_ADMIN_KEY);
+                if (raw) {
+                    const w = JSON.parse(raw);
+                    if (w && Number.isInteger(w.day) && w.day >= 0 && w.day <= 6
+                        && typeof w.hours === 'number' && w.hours >= 0.5 && w.hours <= 12 && (w.hours * 2) % 1 === 0) {
+                        weeklyAdmin = { day: w.day, hours: w.hours };
+                    }
+                }
+            } catch (e) { /* storage unavailable: just run without a saved rule */ }
+            document.getElementById('waDay').value = weeklyAdmin ? String(weeklyAdmin.day) : '';
+            if (weeklyAdmin) document.getElementById('waHours').value = String(weeklyAdmin.hours);
+            updateWeeklyAdminStatus();
+        }
+
+        function updateWeeklyAdminStatus() {
+            const el = document.getElementById('waStatus');
+            if (weeklyAdmin) {
+                el.className = 'weekly-admin-status on';
+                el.textContent = `✔ ${weeklyAdmin.hours} hours of Admin Time will be added every ${WEEKDAY_NAMES[weeklyAdmin.day]} (see the Admin Time column below). You can still change any day there.`;
+            } else {
+                el.className = 'weekly-admin-status';
+                el.textContent = 'Not used. Example: choose Thursday and 4 hours if you do 4 hours of admin every Thursday afternoon. It is saved in this browser for next time.';
+            }
+        }
+
+        function onWeeklyAdminChange() {
+            const day = document.getElementById('waDay').value;
+            const hours = parseFloat(document.getElementById('waHours').value);
+            weeklyAdmin = (day === '' || !(hours > 0)) ? null : { day: parseInt(day, 10), hours: hours };
+            try {
+                if (weeklyAdmin) localStorage.setItem(WEEKLY_ADMIN_KEY, JSON.stringify(weeklyAdmin));
+                else localStorage.removeItem(WEEKLY_ADMIN_KEY);
+            } catch (e) { /* ignore */ }
+            updateWeeklyAdminStatus();
+            renderDaysGrid();
+            updateSummary();
         }
 
         function loadCustomShifts() {
@@ -2530,6 +2631,16 @@
                     row.workedManual = false;
                     row.regManual = false;
                 }
+
+                // Standard weekly Admin Time. Applied when the rule changes for this row; a value the
+                // user typed into the Admin Time cell themselves is left alone.
+                const dow = getDayOfWeek(year, month, monthHalf === 'first' ? d : d + 15);
+                const adminHrs = (weeklyAdmin && weeklyAdmin.day === dow) ? weeklyAdmin.hours : 0;
+                const adminSig = adminHrs ? String(adminHrs) : '';
+                if (adminSig !== (row.adminSig || '')) {
+                    row.adminSig = adminSig;
+                    if (!row.adminManual) row.vals.admin = adminSig;
+                }
             }
         }
 
@@ -2666,6 +2777,7 @@
 
         function onGridNum(d, key, el) {
             gridRows[d].vals[key] = el.value;
+            if (key === 'admin') gridRows[d].adminManual = true;
             afterGridEdit(d);
         }
 
@@ -2722,6 +2834,8 @@
             setCurrentMonthYear();
             loadSavedEmployeeInfo();
             loadCustomShifts();
+            fillWeeklyAdminHours();
+            loadWeeklyAdmin();
             loadSavedRole();
             fillTimeSelect('csIn');
             fillTimeSelect('csOut');
