@@ -191,11 +191,13 @@
         
         .days-grid {
             display: grid;
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-columns: repeat(7, minmax(0, 1fr));
             gap: 8px;
             margin-bottom: 20px;
         }
         
+        .day-spacer { visibility: hidden; }
+
         .day-btn {
             aspect-ratio: 1;
             border: 2px solid #e2e8f0;
@@ -1257,7 +1259,7 @@
 
             /* Reduce days grid to 4 columns on tablets */
             .days-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(7, minmax(0, 1fr));
                 gap: 6px;
             }
 
@@ -1368,7 +1370,7 @@
 
             /* Days grid - 4 columns on mobile */
             .days-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(7, minmax(0, 1fr));
                 gap: 4px;
                 margin-bottom: 16px;
             }
@@ -1376,7 +1378,8 @@
             .day-btn {
                 font-size: 14px;
                 padding: 2px;
-                min-height: 50px;
+                min-height: 0;
+                min-width: 0;
             }
 
             .day-btn .day-number {
@@ -1388,9 +1391,19 @@
                 margin-top: 1px;
             }
 
+            /* Selected tiles: the column already shows the weekday, so use the space for the shift label */
+            .day-btn.selected .day-name {
+                display: none;
+            }
+
             .day-btn .shift-indicator {
+                position: static;
                 font-size: 7px;
-                bottom: 1px;
+                line-height: 1.1;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             .day-btn:hover {
@@ -1618,7 +1631,7 @@
         /* Landscape mobile optimization */
         @media (max-width: 812px) and (orientation: landscape) {
             .days-grid {
-                grid-template-columns: repeat(8, 1fr);
+                grid-template-columns: repeat(7, minmax(0, 1fr));
                 gap: 4px;
             }
 
@@ -3153,6 +3166,15 @@
             const year = parseInt(document.getElementById('yearSelect').value);
             const month = parseInt(document.getElementById('monthSelect').value);
             const daysInHalf = getDaysInHalf(year, month, monthHalf);
+
+            // Leading blank cells so each column is always the same weekday (Sun..Sat)
+            const leadingBlanks = getDayOfWeek(year, month, monthHalf === 'first' ? 1 : 16);
+            for (let b = 0; b < leadingBlanks; b++) {
+                const spacer = document.createElement('div');
+                spacer.className = 'day-spacer';
+                spacer.setAttribute('aria-hidden', 'true');
+                grid.appendChild(spacer);
+            }
 
             for (let i = 1; i <= daysInHalf; i++) {
                 const calendarDay = monthHalf === 'first' ? i : i + 15;
